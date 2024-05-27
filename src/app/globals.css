@@ -1,0 +1,21 @@
+:root {  
+  --border-radius: 12px;   
+
+  /*backgrounds color*/
+  --background-easy-gray: #F5F5F5;/* used in container full screen */
+  --custom-purple-classifield: #5A63B5; /*classifiels purple*/
+
+  /* text colors */
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
