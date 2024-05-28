@@ -7,7 +7,7 @@ export const DefaultContainerControlMaxWidthPage = styled.div`
     flex-direction: column;  
     align-items: center;  
     width: 100%;   
-    padding: 10px 10px;  
+    padding: 5px 5px;  
     //background-color: blue;
     background-color: var(--custom-purple-classifield);
     height: 100%;   

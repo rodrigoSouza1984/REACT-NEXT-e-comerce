@@ -9,9 +9,9 @@ interface DefaultProvidersProps {
 }
 
 export const theme = {
-    desktopBreakpoint: "1280px",	    //=> tela para desktop
-    tabletBreakPoint: "930px",			//=> tela para tablet
-    celPhoneBreakPoint: "660px"         //=> tela para celular
+    desktopBreakpoint: "1360px",	    //=> tela para desktop
+    tabletBreakPoint: "1100px",			//=> tela para tablet
+    celPhoneBreakPoint: "740px"         //=> tela para celular
 }
 
 export function ThemeProviders({ children }: DefaultProvidersProps) {

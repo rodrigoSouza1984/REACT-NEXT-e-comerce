@@ -3,9 +3,12 @@
 
   /*backgrounds color*/
   --background-easy-gray: #F5F5F5;/* used in container full screen */
+  --background-secondary: #F3F5F6;
   --custom-purple-classifield: #5A63B5; /*classifiels purple*/
 
   /* text colors */
+  --text-dark: #737380;
+  --delete-color: #D33838;
 }
 
 * {
