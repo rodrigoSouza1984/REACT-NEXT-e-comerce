@@ -10,9 +10,14 @@ export const DefaultContainerControlMaxWidthPage = styled.div`
     padding: 5px 5px;  
     //background-color: blue;
     background-color: var(--custom-purple-classifield);
-    height: 100%;   
+    height: 100%;  
     
     @media (min-width: ${props => props.theme.celPhoneBreakPoint}){//aki
+        width: 80%;
+        //background-color: orange; 
+    }
+    
+    @media (min-width: ${props => props.theme.smallerTabletBreakPoint}){//aki
         width: 80%;
         //background-color: green; 
     }

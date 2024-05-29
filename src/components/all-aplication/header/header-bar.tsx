@@ -20,13 +20,19 @@ const TagHeader = styled.header`
     justify-content: space-between;
     padding: 10px 10px;    
     background-color: var(--background-easy-gray);    
-    width: 100%;   
+    width: 100%; 
     
-    @media (min-width: ${props => props.theme.celPhoneBreakPoint}){//aki        
+    @media (min-width: ${props => props.theme.celPhoneBreakPoint}){//aki
+        padding: 10px 18px;
+        align-items: center;
+        //background-color:blue ; 
+    }
+    
+    @media (min-width: ${props => props.theme.smallerTabletBreakPoint}){//aki
         padding: 10px 20px;
         align-items: center;
-        //background-color:blue ;        
-    }    
+        //background-color:blue ; 
+    }       
 
     @media (min-width: ${props => props.theme.tabletBreakPoint}){//aki           
         padding: 10px 20px; 
@@ -36,7 +42,7 @@ const TagHeader = styled.header`
     }
     
     @media (min-width: ${props => props.theme.desktopBreakpoint}){//aki
-        padding: 10px 20px;//aki
+        padding: 10px 24px;//aki
         flex-wrap: wrap;
         align-items: center;
         //background-color:yellow ; 
@@ -54,6 +60,11 @@ const Logo = styled.a`
         font-size: 30px;
         margin-right: -20px;
     }
+    
+    @media (min-width: ${props => props.theme.smallerTabletBreakPoint}){//aki
+        font-size: 30px;
+        margin-right: -20px;
+    }     
 
     @media (min-width: ${props => props.theme.tabletBreakPoint}){//aki
         font-size: 36px;
@@ -70,24 +81,24 @@ const ContainerSearchCartIconAvatar = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 24px;   
+    gap: 2px;   
     
     > div {				// 1 div da tag header acima > indica 1 div 
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: end;
-        gap: 0px;        
+        gap: 2px;        
         width: 100%;
-        padding: 4px 4px;
+        padding: 4px 0px;
     }    
 
-    @media (max-width: 515px){//aki
+    @media (max-width: 440px){//aki
         display: flex;
         flex-direction: column;
         align-items: end;
         justify-content: end;
-        gap: 25px ; 
+        gap: 2px ; 
         margin-left: -135px;
     }
 `;
