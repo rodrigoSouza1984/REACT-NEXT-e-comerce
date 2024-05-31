@@ -7,6 +7,7 @@ import { DefaultContainerControlMaxWidthPage } from "@/components/all-aplication
 import { ThemeProviders } from "@/components/all-aplication/providers/theme-provider";
 import { Header } from "@/components/all-aplication/header/header-bar";
 import styled from "styled-components"
+import { FilterContextProvider } from "@/contexts/filters-context";
 
 
 
@@ -33,16 +34,20 @@ export default function RootLayout({
     <html lang="pt">
       <body className={saira.className}>
         <ThemeProviders>
-          <DefaultContainerFullScreen>
-            <DefaultContainerControlMaxWidthPage>
+          <FilterContextProvider>
 
-              <PageContainer>
-                <Header/>
-                {children}
-              </PageContainer>           
-                
-            </DefaultContainerControlMaxWidthPage>
-          </DefaultContainerFullScreen>
+            <DefaultContainerFullScreen>
+              <DefaultContainerControlMaxWidthPage>
+
+                <PageContainer>
+                  <Header />
+                  {children}
+                </PageContainer>
+
+              </DefaultContainerControlMaxWidthPage>
+            </DefaultContainerFullScreen>
+
+          </FilterContextProvider>
         </ThemeProviders>
       </body>
     </html>

@@ -3,7 +3,15 @@ import { InputHTMLAttributes } from "react";
 import styled from "styled-components";
 
 
-interface InputWithSearchIconProps extends InputHTMLAttributes<HTMLInputElement> { }
+interface InputWithSearchIconProps extends InputHTMLAttributes<HTMLInputElement> { 
+    tipo?: 'text' | 'number'
+    texto?: string
+    somenteLeitura?: boolean
+    value?: any,									
+    digitedValue?: (value: string) => void
+
+    onClick?: () => void;
+}
 
 const InputContainer = styled.div`
     position: relative;
@@ -89,11 +97,17 @@ const PrimaryInput = styled.input`
 `
 
 
-export function InputWithSearchIcon(props: InputWithSearchIconProps) {
+export function InputWithSearchIcon({digitedValue, placeholder, ...props}: InputWithSearchIconProps) {
     return (
         <InputContainer>
-            <PrimaryInput {...props} />
-            <SearchIcon />
+            <PrimaryInput
+                type={props.tipo ?? 'text'}
+                readOnly={props.somenteLeitura}
+                onChange={e => digitedValue?.(e.target.value)}
+                placeholder={placeholder}                
+                {...props}
+            />
+            <SearchIcon onClick={props.onClick}/>
         </InputContainer>
 
     )

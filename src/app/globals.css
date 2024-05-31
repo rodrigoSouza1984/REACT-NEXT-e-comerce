@@ -2,9 +2,11 @@
   --border-radius: 12px;   
 
   /*backgrounds color*/
-  --background-easy-gray: #F5F5F5;/* used in container full screen */
+  --background-easy-gray: #F5F5F5;/* used in container full screen */  
   --background-secondary: #F3F5F6;
+  --custom-gray-light: rgba(200, 200, 200, 0.9);
   --custom-purple-classifield: #5A63B5; /*classifiels purple*/
+  --custom-gray-light: rgba(90, 99, 181, 0.5);
 
   /* text colors */
   --text-dark: #737380;

@@ -1,5 +1,10 @@
 import { CartIcon } from "@/components/icons/cart-icon";
+import { InputHTMLAttributes } from "react";
 import styled from "styled-components";
+
+interface CartControlProps extends InputHTMLAttributes<HTMLInputElement> { 
+    onClick?: () => void;
+}
 
 const Container = styled.button`   
     position: relative;
@@ -33,8 +38,8 @@ const CartCount = styled.span`
 export function CartControl() {
     return (
         <Container>
-            <CartIcon />
+            <CartIcon/>
             <CartCount>22</CartCount>
         </Container>
-    )
+    );
 }
