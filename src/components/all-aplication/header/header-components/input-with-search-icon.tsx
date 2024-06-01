@@ -65,19 +65,20 @@ const PrimaryInput = styled.input`
     color: var(--text-dark);
     height: 30px;   
     margin-right: 8px;
-    margin-left: 8px; 
+    margin-left: 8px;    
 
     @media (min-width: ${props => props.theme.celPhoneBreakPoint}){//aki
         width: 200px;   
         height: 30px;   
-        font-size: 10px; 
-        margin-right: 14px;       
+        font-size: 8px; 
+        margin-right: 10px;       
     }
     
     @media (min-width: ${props => props.theme.smallerTabletBreakPoint}){//aki
         width: 260px;   
-        height: 40px;   
-        font-size: 14px;       
+        height: 40px;  
+        margin-right: 10px; 
+        font-size: 10px;       
         //background-color:blue ;
     }     
 
@@ -85,13 +86,15 @@ const PrimaryInput = styled.input`
         width: 352px;
         height: 40px;
         margin-right: 10px;
-        font-size: 14px;     
+        font-size: 10px;     
         //background-color:red ;   
     }
 
     @media (min-width: ${props => props.theme.desktopBreakpoint}){//aki
         width: 400px; 
         height: 40px; 
+        margin-right: 10px;
+        font-size: 10px;
         //background-color:yellow ;      
     }
 `
