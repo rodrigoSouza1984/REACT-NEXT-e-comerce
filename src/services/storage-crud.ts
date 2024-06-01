@@ -32,7 +32,7 @@ export function addDataInLocalStorage<T>(item: string, defaultValue: []) {
 }
 
 
-export function getFromLocalStorage(item: string, defaultValue: []) {
+export function getFromLocalStorage(item: string, defaultValue?: []) {
     try {
         const storedItem = localStorage.getItem(item);
         return storedItem ? JSON.parse(storedItem) : defaultValue;
