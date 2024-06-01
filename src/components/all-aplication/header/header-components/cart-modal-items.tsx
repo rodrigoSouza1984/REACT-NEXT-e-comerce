@@ -1,129 +1,110 @@
 "use client"
 
-import { DeleteIconInGrayColor } from "@/components/icons/delete-icon";
-import { formatPrice } from "@/utils/formatted-price";
+import { getFromLocalStorage } from "@/services/storage-crud";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
+import { CardItemCard } from "@/components/cart-purchase/card-product";
+import { CartResumePurchase } from "@/components/cart-purchase/card-resume-purchase";
 
-interface CartModalProps {
+interface CartModalProps {    
 }
 
 const MenuContainer = styled.div`
     display: flex;
     flex-direction: column; /* Para garantir que os itens sejam empilhados verticalmente */
-    align-items: center;
+    align-items: center;    
     position: absolute;
     right: 0px;
     top: 100%;
-    padding: 10px;
+    padding: 2px;
     z-index: 999;
-    width: 240px;
+    width: 270px;
     height: 100%;
-    min-height: calc(100vh - 120px);
-    max-height: calc(100vh - 120px); /* Altura máxima da viewport menos espaço para cabeçalhos e rodapé */
+    min-height: calc(100vh - 220px);
+    max-height: calc(100vh - 220px); /* Altura máxima da viewport menos espaço para cabeçalhos e rodapé */
     overflow-y: auto; /* Adiciona barra de rolagem vertical quando necessário */
     background-color: var(--background-easy-gray);
-`
-
-
-const CartItemCard = styled.div`
-    border: 1px solid var(--custom-gray-light);
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    height: 80px;
-`
-
-const ItemImage = styled.img`
-    //position: absolute; /* Posiciona a imagem absolutamente dentro do CartItemCard */
-    top: 0; /* Alinha a imagem ao topo */
-    left: 0; /* Alinha a imagem à esquerda */
-    width: 50px; /* Largura da imagem */
-    height: 60px; /* Altura da imagem igual à altura do cartão */
-    object-fit: cover; /* Para manter a proporção da imagem */
-    border-radius: 8px;
-`
-
-const ContainerImageAndPrice = styled.div`
-    display: flex;
-    flex-direction: column;    
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px 5px;
-    //background-color: red;
-    width: 150px;
-    height: 100%;
-    margin-left: 5px;
+    padding: 0 5px;
     
-`
 
-const LineNameAndTrashIcon = styled.div`    
-    display: flex;
-    justify-content: space-between;
-    align-items: center;    
-    width: 100%;    
+    h1{
+        font-size: 18px;
+        font-weight: 100;
+        text-align: center;        
+        color:red;
+        width: 100%;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
 
-    svg {
-        //background-color: red;
-        height: 20px;
-        width: 18px;
+    @media (max-width: 290px){//aki
+        width: 230px;   
+               
     }
 `
 
-const ItemName = styled.div`
-    font-size: 12px;      
-    white-space: nowrap; 
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: 100%;    
-`
-
-const ItemPrice = styled.div`    
-    font-size: 10px;    
-    height: 100%;
-    text-align: center;
-`
-
-const LinePriceAndQuantity = styled.div`    
+const ContainerAllCardsItems = styled.div`    
     display: flex;
-    justify-content: space-between;
-    align-items: center;    
-    width: 100%;    
+    flex-direction: column;   
+    border: 1px solid var(--custom-gray-light);    
+    border-radius: 8px;
+    padding: 5px 5px;
+    margin-bottom: 10px;
+    overflow-y: scroll;
+    width: 100%;   
+    height: 190px;
 `
 
-const QuantityContainer = styled.div`    
-    input{
-        width: 22px;
-        height: 22px;
-        text-align: center;
-        margin-left: 4px;
-        margin-right: 4px;
-        border: 1px solid var(--custom-gray-light);
-        border-radius: 5px;        
-    }   
+const ButtonNavigateCart = styled.button`
+    background: green;
+    mix-blend-mode: multiply;
+    border-radius: 4px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 0;
+    text-transform: uppercase;
+    width: 100%;
 
-    >div{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;  
-        //background-color: green;
-    }
-`
-
-const ButtonsMaisEMenos = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 15px;
-    height: 15px;
-    border-radius: 100%;
-    background-color: var(--text-dark);
-    color: white; /* Define a cor do texto como branca */
-    text-align: center; /* Centraliza o texto horizontalmente */
-    font-size: 15px;
-    line-height: 15px; /* Ajusta a altura do texto para centralização vertical */
-`;
+    gap: 8px;
+    margin-top: 10px;
+
+    >div{
+        background-color: transparent;
+    }
+`
+
+
+
+const ButtonAddMoreProducts = styled.button`
+    background: var(--custom-gray-light);
+    mix-blend-mode: multiply;
+    border-radius: 4px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 0;
+    text-transform: uppercase;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+
+    font-size: 10px;
+
+    >div{
+        background-color: transparent;
+        color: #000
+        
+    }
+`
 
 export function CartMenuModal(props: CartModalProps) {
 
@@ -133,55 +114,23 @@ export function CartMenuModal(props: CartModalProps) {
         router.push(routerUrl)
     }
 
-    const getCartItemsFromLocalStorage = () => {
-        const cartItemsString = localStorage.getItem("cart-items");
-        if (cartItemsString) {
-            return JSON.parse(cartItemsString);
-        }
-        return [];
-    };
-
     // Obtém os itens do localStorage
-    const cartItems = getCartItemsFromLocalStorage();
-
+    const cartItems = getFromLocalStorage("cart-items");
 
     return (
-        <MenuContainer>
-            {cartItems.map((item: any, index: number) => (
-                <CartItemCard key={index}>
+        <MenuContainer>            
+            <h1>{`Itens no Carrinho (${cartItems.length > 0 ? cartItems.length : 0})`}</h1>
 
-                    <ItemImage src={item.image_url} alt={item.name} />
+            <ContainerAllCardsItems>
+                {cartItems.map((item: any, index: number) => (
+                    <CardItemCard productInCartStorage={item}/>
+                ))}
+            </ContainerAllCardsItems>
 
+            <CartResumePurchase productCartListStorage={cartItems}/>            
 
-                    <ContainerImageAndPrice>
-
-                        <LineNameAndTrashIcon>
-                            <ItemName>{item.name}</ItemName>
-                            <DeleteIconInGrayColor />
-                        </LineNameAndTrashIcon>
-
-                        <LinePriceAndQuantity>
-
-                            <QuantityContainer>
-                                <div>
-                                    <ButtonsMaisEMenos>-</ButtonsMaisEMenos>
-                                    <input type="text" value={item.quatityPurchased} readOnly />
-                                    <ButtonsMaisEMenos>+</ButtonsMaisEMenos>
-                                </div>
-                            </QuantityContainer>
-
-                            <ItemPrice>{formatPrice(item.price_in_cents)}</ItemPrice>
-
-                        </LinePriceAndQuantity>
-
-
-
-                    </ContainerImageAndPrice>
-
-
-
-                </CartItemCard>
-            ))}
+            <ButtonNavigateCart><div>Ir Para o Carrinho</div></ButtonNavigateCart>
+            <ButtonAddMoreProducts><div>Escolher Mais Produtos</div></ButtonAddMoreProducts>
         </MenuContainer>
     )
 

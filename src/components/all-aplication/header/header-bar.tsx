@@ -106,7 +106,7 @@ const ContainerSearchCartIconAvatar = styled.div`
             display: flex;
             //flex-direction: row;
             //justify-content: end;
-            align-items: end;            
+            //align-items: end;            
     }
 
 
@@ -254,10 +254,11 @@ export function Header(props: HeaderProps) {
                     </AvatarWithModal>
 
                 </div>
-            </ContainerSearchCartIconAvatar>
 
+                {/* <div onClick={() => handleUpdateQuantity()}>aaaaaaaaaaa</div> */}
+            </ContainerSearchCartIconAvatar> 
 
-        </TagHeader>
+        </TagHeader>        
 
     )
 }
