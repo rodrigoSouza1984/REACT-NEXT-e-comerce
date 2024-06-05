@@ -6,11 +6,13 @@ import { DeleteIconInGrayColor } from "../icons/delete-icon";
 
 interface CardItemCardProps {
     productInCartStorage: any
+    onClickAddItem?: () => void;
+    onClickDecrementItem?: () => void;
+    removeItem?: () => void;
 }
 
 const CartItemCard = styled.div`    
-    border: 'none';
-    //border: 1px solid var(--custom-gray-light);
+    border: 'none';    
     border-radius: 8px;
     padding: 10px;
     margin-bottom: 10px;
@@ -19,14 +21,13 @@ const CartItemCard = styled.div`
 `
 
 const ItemImage = styled.img`    
-    top: 0; /* Alinha a imagem ao topo */
-    left: 0; /* Alinha a imagem à esquerda */
-    width: 60px; /* Largura da imagem */
-    height: 70px; /* Altura da imagem igual à altura do cartão */
-    object-fit: cover; /* Para manter a proporção da imagem */
+    top: 0; 
+    left: 0; 
+    width: 60px; 
+    height: 70px; 
+    object-fit: cover; 
     border-radius: 8px;    
-    margin-top: 0;
-    
+    margin-top: 0;    
 `
 
 const ContainerImageAndPrice = styled.div`
@@ -34,8 +35,7 @@ const ContainerImageAndPrice = styled.div`
     flex-direction: column;    
     justify-content: space-between;
     align-items: center;
-    padding: 0px 7px;
-    //background-color: red;
+    padding: 0px 7px;    
     width: 168px;
     height: 100%;
     margin-left: 5px; 
@@ -48,10 +48,13 @@ const LineNameAndTrashIcon = styled.div`
     align-items: center;    
     width: 100%;    
 
-    svg {
-        //background-color: red;
+    svg {        
         height: 20px;
         width: 18px;
+    }
+
+    .deleteIcon{
+        cursor: pointer;
     }
 `
 
@@ -109,13 +112,23 @@ const ItemPrice = styled.div`
     justify-content: center;     
 `
 
+const ContainerItemPriceAndTitle = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;    
+
+    .valorUnid{
+        font-size: 7px;
+    }
+`
+
 const LinePriceAndQuantity = styled.div`    
     display: flex;
     justify-content: space-between;
-    align-items: center;    
+    align-items: end;    
     width: 100%;    
-    margin-top: 5px;
-    //background-color: red;
+    margin-top: 5px;    
 `
 
 const QuantityContainer = styled.div`    
@@ -132,8 +145,7 @@ const QuantityContainer = styled.div`
     >div{
         display: flex;
         justify-content: space-between;
-        align-items: center;  
-        //background-color: green;
+        align-items: center;         
     }
 `
 
@@ -145,13 +157,15 @@ const ButtonsMaisEMenos = styled.div`
     height: 15px;
     border-radius: 100%;
     background-color: var(--text-dark);
-    color: white; /* Define a cor do texto como branca */
-    text-align: center; /* Centraliza o texto horizontalmente */
+    color: white; 
+    text-align: center; 
     font-size: 15px;
-    line-height: 15px; /* Ajusta a altura do texto para centralização vertical */
+    line-height: 15px; 
+    cursor: pointer;
 `;
 
 export function CardItemCard(props: CardItemCardProps) {
+
     return (
         <CartItemCard >
 
@@ -161,10 +175,15 @@ export function CardItemCard(props: CardItemCardProps) {
             <ContainerImageAndPrice>
 
                 <LineNameAndTrashIcon>
+
                     <ItemName>
                         <div>{props.productInCartStorage.name}</div>
                     </ItemName>
-                    <DeleteIconInGrayColor />
+
+                    <div className="deleteIcon" onClick={props.removeItem}>
+                        <DeleteIconInGrayColor />
+                    </div>
+
                 </LineNameAndTrashIcon>
 
                 {props.productInCartStorage.size ? <LineConfigItem>
@@ -211,13 +230,16 @@ export function CardItemCard(props: CardItemCardProps) {
 
                     <QuantityContainer>
                         <div>
-                            <ButtonsMaisEMenos>-</ButtonsMaisEMenos>
-                            <input type="text" value={props.productInCartStorage.quatityPurchased} readOnly />
-                            <ButtonsMaisEMenos>+</ButtonsMaisEMenos>
+                            <ButtonsMaisEMenos onClick={props.onClickDecrementItem}>-</ButtonsMaisEMenos>
+                            <input type="text" value={props.productInCartStorage.quantityPurchased} readOnly />
+                            <ButtonsMaisEMenos onClick={props.onClickAddItem}>+</ButtonsMaisEMenos>
                         </div>
                     </QuantityContainer>
+                    <ContainerItemPriceAndTitle>
+                        <div className="valorUnid">Valor Unid. s/ desc.</div>
+                        <ItemPrice>{formatPrice(props.productInCartStorage.price_in_cents)}</ItemPrice>
+                    </ContainerItemPriceAndTitle>
 
-                    <ItemPrice>{formatPrice(props.productInCartStorage.price_in_cents)}</ItemPrice>
 
                 </LinePriceAndQuantity>
 
@@ -227,3 +249,4 @@ export function CardItemCard(props: CardItemCardProps) {
     )
 
 }
+

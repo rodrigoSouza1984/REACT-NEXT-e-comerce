@@ -18,6 +18,7 @@ const CartCardValueTotalPurchase = styled.div`
     margin-top: 10px;
     width: 100%;
     height: 160px;
+    min-height: 130px;
     display: flex;
     flex-direction: column;
     align-items: center;
