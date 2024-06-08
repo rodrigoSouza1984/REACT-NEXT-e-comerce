@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { CardItemCard } from "@/components/cart-purchase/card-product";
 import { CartResumePurchase } from "@/components/cart-purchase/card-resume-purchase";
 import { useEffect, useState } from "react";
+import { purchase } from "@/api/database-mock/purchase";
+import { usePurchaseStorageContext } from "@/hooks/purchase/use-purchase-storage";
 
 interface CartModalProps {
 }
@@ -108,35 +110,41 @@ const ButtonAddMoreProducts = styled.button`
     }
 `
 
+
 export function CartMenuModal(props: CartModalProps) {
 
     const router = useRouter();
-    const [cartItems, setCartItems] = useState(getFromLocalStorage("cart-items") || [])
+    //const [cartItems, setCartItems] = useState(getFromLocalStorage("purchase") || {})
+    const { purchaseStorage,  setPurchaseStorage} = usePurchaseStorageContext();
 
     const handleNavigate = (routerUrl: string) => {
         router.push(routerUrl)
-    }
-    // Obtém os itens do localStorage   
+    }    
 
-    function incrementItemQuantity(key: string, index: number) {
+    async function incrementItemQuantity(key: string, index: number) {
         try {
 
-            if (cartItems) {
+            const purchase = getFromLocalStorage(key)
 
-                if (index >= 0 && index < cartItems.length) {
+            if (purchase) {
 
-                    // Incrementa a quantidade do item
-                    const itemBeforeToCompare = { ...cartItems[index]};
-                    const newItem = { ...cartItems[index], quantityPurchased: (cartItems[index].quantityPurchased || 0) + 1 };                    
+                if (index >= 0 && index < purchase.productsCart.length) {
 
-                    if(newItem.quantityPurchased > itemBeforeToCompare.quantity ){
+                    const itemBeforeToCompare = purchase.productsCart[index];
+
+                    const quantityPurchasedUpdate = (purchase.productsCart[index].quantityPurchased || 0) + 1
+
+                    purchase.productsCart[index].quantityPurchased = quantityPurchasedUpdate;
+
+                    if (Number(quantityPurchasedUpdate) > Number(itemBeforeToCompare.quantity)) {
                         return
-                    }                   
+                    }
 
-                    // Atualiza o item no localStorage usando a função existente
-                    updateItemInLocalStorage(key, index, newItem);
-                    
-                    setCartItems(getFromLocalStorage("cart-items"))
+                    const purchaseUpdated = await updatePurchaseValues(purchase)                    
+
+                    updateItemInLocalStorage(key, purchaseUpdated);
+
+                    setPurchaseStorage(getFromLocalStorage("purchase"))
 
                 } else {
                     console.error('Index out of bounds');
@@ -150,26 +158,30 @@ export function CartMenuModal(props: CartModalProps) {
         }
     }
 
-
-    function decrementItemQuantity(key: string, index: number) {
+    async function decrementItemQuantity(key: string, index: number) {
         try {
 
-            if (cartItems) {
+            const purchase = getFromLocalStorage(key)
 
-                if (index >= 0 && index < cartItems.length) {
+            if (purchase) {
 
-                    // Incrementa a quantidade do item
-                    const itemBeforeToCompare = { ...cartItems[index]};
-                    const newItem = { ...cartItems[index], quantityPurchased: (cartItems[index].quantityPurchased || 0) - 1 };                    
+                if (index >= 0 && index < purchase.productsCart.length) {
 
-                    if(newItem.quantityPurchased < 1 ){
+                    const itemBeforeToCompare = purchase.productsCart[index];
+
+                    const quantityPurchasedUpdate = (purchase.productsCart[index].quantityPurchased || 0) - 1
+
+                    purchase.productsCart[index].quantityPurchased = quantityPurchasedUpdate;
+
+                    if (Number(quantityPurchasedUpdate) < 1) {
                         return
-                    }                   
+                    }
 
-                    // Atualiza o item no localStorage usando a função existente
-                    updateItemInLocalStorage(key, index, newItem);
-                    
-                    setCartItems(getFromLocalStorage("cart-items"))
+                    const purchaseUpdated = await updatePurchaseValues(purchase)                    
+
+                    updateItemInLocalStorage(key, purchaseUpdated);
+
+                    setPurchaseStorage(getFromLocalStorage("purchase"))
 
                 } else {
                     console.error('Index out of bounds');
@@ -179,38 +191,77 @@ export function CartMenuModal(props: CartModalProps) {
             }
 
         } catch (err) {
-            console.log('Error in decrementItemQuantity', err);
+            console.log('Error in incrementItemQuantity', err);
         }
     }
 
+    async function removeItemCart(key: string, index: number) {
+        try {
 
-    function removeItemCart(key: string, index: number){
-        try{
-            removeItemFromLocalStorage(key, index)
+            const purchase = getFromLocalStorage(key)
 
-            setCartItems(getFromLocalStorage("cart-items"))
-        }catch(err){
-            console.log('Error in remove item', err); 
+            if (purchase) {
+
+                if (index >= 0 && index < purchase.productsCart.length) {
+
+                    purchase.productsCart.splice(index, 1)
+
+                    const purchaseUpdated = await updatePurchaseValues(purchase)                    
+
+                    updateItemInLocalStorage(key, purchaseUpdated);
+
+                    setPurchaseStorage(getFromLocalStorage("purchase"))
+
+                } else {
+                    console.error('Index out of bounds');
+                }
+            } else {
+                console.error('Item not found in localStorage');
+            }
+
+        } catch (err) {
+            console.log('Error in incrementItemQuantity', err);
         }
     }
 
+    async function updatePurchaseValues(purchase: any) {        
+        try {
+           
+            purchase.subtotal_in_cents = 0,
+            purchase.descountTotal_in_cents = 0,
+            purchase.subTotalWithDescount_in_cents = 0
+    
+            purchase.productsCart?.forEach((product: any) => {
+                purchase.subtotal_in_cents = purchase.subtotal_in_cents + (Number(product.price_in_cents) * Number(product.quantityPurchased));
+                purchase.descountTotal_in_cents = purchase.descountTotal_in_cents + Number(product.descount_in_cents);
+            });
+    
+            purchase.subTotalWithDescount_in_cents = purchase.subtotal_in_cents - purchase.descountTotal_in_cents;
+            
+            return purchase;
+
+        } catch (err) {
+            console.log(err, 'error in updatePurchaseValues')
+        }
+    }
 
     return (
         <MenuContainer>
-            <h1>{`Itens no Carrinho (${cartItems.length > 0 ? cartItems.length : 0})`}</h1>
+            <h1>{`Itens no Carrinho (${purchaseStorage && purchaseStorage.productsCart && purchaseStorage.productsCart.length > 0 ? purchaseStorage.productsCart.length : 0})`}</h1>
 
             <ContainerAllCardsItems>
-                {cartItems.map((item: any, index: number) => (
-                    <CardItemCard 
-                        productInCartStorage={item} 
-                        onClickAddItem={() => incrementItemQuantity('cart-items', index)}  
-                        onClickDecrementItem={() => decrementItemQuantity('cart-items', index)}
-                        removeItem={() => removeItemCart('cart-items', index)}
+                {purchaseStorage && purchaseStorage.productsCart ? purchaseStorage.productsCart.map((item: any, index: number) => (
+                    <CardItemCard
+                        key={index}
+                        productInCartStorage={item}
+                        onClickAddItem={() => incrementItemQuantity('purchase', index)}
+                        onClickDecrementItem={() => decrementItemQuantity('purchase', index)}
+                        removeItem={() => removeItemCart('purchase', index)}
                     />
-                ))}
+                )) : ''}
             </ContainerAllCardsItems>
 
-            <CartResumePurchase productCartListStorage={cartItems} />
+            <CartResumePurchase />
 
             <ButtonNavigateCart><div>Ir Para o Carrinho</div></ButtonNavigateCart>
             <ButtonAddMoreProducts><div>Escolher Mais Produtos</div></ButtonAddMoreProducts>

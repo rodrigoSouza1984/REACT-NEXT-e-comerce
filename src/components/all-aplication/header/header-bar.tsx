@@ -6,12 +6,14 @@ import { InputWithSearchIcon } from "./header-components/input-with-search-icon"
 import { CartControl } from "./header-components/cart-control-with-badge";
 import { Avatar } from "./header-components/avatar";
 import { useEffect, useState, useRef } from "react";
-import { useFiltersContext } from "@/hooks/products/use-filters-contexts";
 import { AvatarMenuModal } from "./header-components/avatar-menu-modal";
-import { addDataInLocalStorage } from "@/services/storage-crud";
+import { addDataInLocalStorage, getFromLocalStorage } from "@/services/storage-crud";
 import { productsCart } from "@/api/database-mock/products-cart";
 import { formatPrice } from "@/utils/formatted-price";
 import { CartMenuModal } from "./header-components/cart-modal-items";
+import { purchase } from "@/api/database-mock/purchase";
+import { useFiltersContext } from "@/hooks/products/use-filters-contexts";
+import { usePurchaseStorageContext } from "@/hooks/purchase/use-purchase-storage";
 
 const SairaStencil = Saira_Stencil_One({
     weight: ['400'],
@@ -166,7 +168,10 @@ export function Header(props: HeaderProps) {
     const { inputHeaderValue, setInputHeaderValue } = useFiltersContext();
     const [menuAvatar, setMenuAvatar] = useState(false);
     const iconRef = useRef<HTMLDivElement>(null);
-    const { value, updateLocalStorage } = addDataInLocalStorage("cart-items", [])
+    // const { value, updateLocalStorage } = addDataInLocalStorage("purchase", [])
+    const { value, updateLocalStorage } = addDataInLocalStorage("purchase", {})
+
+    const { purchaseStorage,  setPurchaseStorage} = usePurchaseStorageContext();
 
     const [modalCart, setModalCart] = useState(false);
 
@@ -184,12 +189,14 @@ export function Header(props: HeaderProps) {
 
     const openMenuAvatar = () => {
         setModalCart(false)
-        setMenuAvatar(() => !menuAvatar)
+        setMenuAvatar(() => !menuAvatar)        
     }
 
     const openModalCart = () => {
         setMenuAvatar(false);
         setModalCart(() => !modalCart)
+
+        setPurchaseStorage(getFromLocalStorage("purchase") || {} )
     }
 
     useEffect(() => {
@@ -197,7 +204,7 @@ export function Header(props: HeaderProps) {
             // Fecha o modal se estiver aberto e o clique não foi dentro do ícone ou do modal
             if (menuAvatar && iconRef.current && !iconRef.current.contains(event.target as Node)) {
                 setMenuAvatar(false);
-                setModalCart(false)
+                setModalCart(false)                
             }
         };
 
@@ -224,7 +231,8 @@ export function Header(props: HeaderProps) {
         //     return { ...item, quantity: quantity }
         // })
 
-        updateLocalStorage(productsCart)
+        updateLocalStorage(purchase)
+        //productsCart
     }
 
     return (

@@ -8,6 +8,7 @@ import { ThemeProviders } from "@/components/all-aplication/providers/theme-prov
 import { Header } from "@/components/all-aplication/header/header-bar";
 import styled from "styled-components"
 import { FilterContextProvider } from "@/contexts/filters-context";
+import { PurchaseStorageProvider } from "@/contexts/purchase-storage-context";
 
 
 
@@ -35,18 +36,20 @@ export default function RootLayout({
       <body className={saira.className}>
         <ThemeProviders>
           <FilterContextProvider>
+            <PurchaseStorageProvider>
 
-            <DefaultContainerFullScreen>
-              <DefaultContainerControlMaxWidthPage>
+              <DefaultContainerFullScreen>
+                <DefaultContainerControlMaxWidthPage>
 
-                <PageContainer>
-                  <Header />
-                  {children}
-                </PageContainer>
+                  <PageContainer>
+                    <Header />
+                    {children}
+                  </PageContainer>
 
-              </DefaultContainerControlMaxWidthPage>
-            </DefaultContainerFullScreen>
-
+                </DefaultContainerControlMaxWidthPage>
+              </DefaultContainerFullScreen>
+              
+            </PurchaseStorageProvider>
           </FilterContextProvider>
         </ThemeProviders>
       </body>

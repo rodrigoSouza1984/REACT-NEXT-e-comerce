@@ -4,10 +4,11 @@ import { formatPrice } from "@/utils/formatted-price";
 import styled from "styled-components";
 import { DeleteIconInGrayColor } from "../icons/delete-icon";
 import { Divider } from "../all-aplication/header/divider";
+import { useEffect } from "react";
+import { usePurchaseStorageContext } from "@/hooks/purchase/use-purchase-storage";
 
 interface CartResumePurchaseProps {
-    productCartListStorage: any[]
-}
+    }
 
 const CartCardValueTotalPurchase = styled.div`
     position: relative;
@@ -95,6 +96,9 @@ const LineValorTotal = styled.div`
 `
 
 export function CartResumePurchase(props: CartResumePurchaseProps) {
+
+    const { purchaseStorage, setPurchaseStorage } = usePurchaseStorageContext();    
+
     return ( 
         <CartCardValueTotalPurchase>
                 <h5>Resumo do Pedido</h5>
@@ -103,18 +107,18 @@ export function CartResumePurchase(props: CartResumePurchaseProps) {
                 <ContainerLinesTotal>
                     <LineSubTotal>
                         <div>Subtotal</div>
-                        <div>R$10,00</div>
+                        <div>{formatPrice(purchaseStorage.subtotal_in_cents)}</div>
                     </LineSubTotal>
 
                     <LineDescountTotal>
                         <div>Desconto Total</div>
-                        <div className="descontTotalValue">R$10,00</div>
+                        <div className="descontTotalValue">{formatPrice(purchaseStorage.descountTotal_in_cents)}</div>
                     </LineDescountTotal>
 
                     <LineValorTotal>
                         <div>Subtotal Com Desconto</div>
-                        <div className="totalValueSemDescont">R$10,00</div>
-                        <div className="totalValue">R$10,00</div>
+                        <div className="totalValueSemDescont">{formatPrice(purchaseStorage.subtotal_in_cents)}</div>
+                        <div className="totalValue">{formatPrice(purchaseStorage.subTotalWithDescount_in_cents)}</div>
                     </LineValorTotal>
 
                 </ContainerLinesTotal>
