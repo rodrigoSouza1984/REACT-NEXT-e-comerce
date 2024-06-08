@@ -8,6 +8,8 @@ import { CartResumePurchase } from "@/components/cart-purchase/card-resume-purch
 import { useEffect, useState } from "react";
 import { purchase } from "@/api/database-mock/purchase";
 import { usePurchaseStorageContext } from "@/hooks/purchase/use-purchase-storage";
+import { StorageKeys } from "@/utils/global-vars";
+import { addItemQuantity, deleteItemPurchaseCartProducts, removeItemQuantity } from "@/services/purchase/purchase.service";
 
 interface CartModalProps {
 }
@@ -115,44 +117,16 @@ export function CartMenuModal(props: CartModalProps) {
 
     const router = useRouter();
     //const [cartItems, setCartItems] = useState(getFromLocalStorage("purchase") || {})
-    const { purchaseStorage,  setPurchaseStorage} = usePurchaseStorageContext();
+    const { purchaseStorage, setPurchaseStorage } = usePurchaseStorageContext();
 
     const handleNavigate = (routerUrl: string) => {
         router.push(routerUrl)
-    }    
+    }
 
     async function incrementItemQuantity(key: string, index: number) {
         try {
-
-            const purchase = getFromLocalStorage(key)
-
-            if (purchase) {
-
-                if (index >= 0 && index < purchase.productsCart.length) {
-
-                    const itemBeforeToCompare = purchase.productsCart[index];
-
-                    const quantityPurchasedUpdate = (purchase.productsCart[index].quantityPurchased || 0) + 1
-
-                    purchase.productsCart[index].quantityPurchased = quantityPurchasedUpdate;
-
-                    if (Number(quantityPurchasedUpdate) > Number(itemBeforeToCompare.quantity)) {
-                        return
-                    }
-
-                    const purchaseUpdated = await updatePurchaseValues(purchase)                    
-
-                    updateItemInLocalStorage(key, purchaseUpdated);
-
-                    setPurchaseStorage(getFromLocalStorage("purchase"))
-
-                } else {
-                    console.error('Index out of bounds');
-                }
-            } else {
-                console.error('Item not found in localStorage');
-            }
-
+            await addItemQuantity(key, index)
+            setPurchaseStorage(getFromLocalStorage(StorageKeys.PURCHASHE))
         } catch (err) {
             console.log('Error in incrementItemQuantity', err);
         }
@@ -160,36 +134,8 @@ export function CartMenuModal(props: CartModalProps) {
 
     async function decrementItemQuantity(key: string, index: number) {
         try {
-
-            const purchase = getFromLocalStorage(key)
-
-            if (purchase) {
-
-                if (index >= 0 && index < purchase.productsCart.length) {
-
-                    const itemBeforeToCompare = purchase.productsCart[index];
-
-                    const quantityPurchasedUpdate = (purchase.productsCart[index].quantityPurchased || 0) - 1
-
-                    purchase.productsCart[index].quantityPurchased = quantityPurchasedUpdate;
-
-                    if (Number(quantityPurchasedUpdate) < 1) {
-                        return
-                    }
-
-                    const purchaseUpdated = await updatePurchaseValues(purchase)                    
-
-                    updateItemInLocalStorage(key, purchaseUpdated);
-
-                    setPurchaseStorage(getFromLocalStorage("purchase"))
-
-                } else {
-                    console.error('Index out of bounds');
-                }
-            } else {
-                console.error('Item not found in localStorage');
-            }
-
+            await removeItemQuantity(key, index)
+            setPurchaseStorage(getFromLocalStorage(StorageKeys.PURCHASHE))
         } catch (err) {
             console.log('Error in incrementItemQuantity', err);
         }
@@ -197,53 +143,12 @@ export function CartMenuModal(props: CartModalProps) {
 
     async function removeItemCart(key: string, index: number) {
         try {
-
-            const purchase = getFromLocalStorage(key)
-
-            if (purchase) {
-
-                if (index >= 0 && index < purchase.productsCart.length) {
-
-                    purchase.productsCart.splice(index, 1)
-
-                    const purchaseUpdated = await updatePurchaseValues(purchase)                    
-
-                    updateItemInLocalStorage(key, purchaseUpdated);
-
-                    setPurchaseStorage(getFromLocalStorage("purchase"))
-
-                } else {
-                    console.error('Index out of bounds');
-                }
-            } else {
-                console.error('Item not found in localStorage');
-            }
-
+            await deleteItemPurchaseCartProducts(key, index)
+            setPurchaseStorage(getFromLocalStorage(StorageKeys.PURCHASHE))
         } catch (err) {
             console.log('Error in incrementItemQuantity', err);
         }
-    }
-
-    async function updatePurchaseValues(purchase: any) {        
-        try {
-           
-            purchase.subtotal_in_cents = 0,
-            purchase.descountTotal_in_cents = 0,
-            purchase.subTotalWithDescount_in_cents = 0
-    
-            purchase.productsCart?.forEach((product: any) => {
-                purchase.subtotal_in_cents = purchase.subtotal_in_cents + (Number(product.price_in_cents) * Number(product.quantityPurchased));
-                purchase.descountTotal_in_cents = purchase.descountTotal_in_cents + Number(product.descount_in_cents);
-            });
-    
-            purchase.subTotalWithDescount_in_cents = purchase.subtotal_in_cents - purchase.descountTotal_in_cents;
-            
-            return purchase;
-
-        } catch (err) {
-            console.log(err, 'error in updatePurchaseValues')
-        }
-    }
+    }    
 
     return (
         <MenuContainer>
