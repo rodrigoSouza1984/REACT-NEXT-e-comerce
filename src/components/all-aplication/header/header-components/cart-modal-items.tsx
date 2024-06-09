@@ -10,6 +10,7 @@ import { purchase } from "@/api/database-mock/purchase";
 import { usePurchaseStorageContext } from "@/hooks/purchase/use-purchase-storage";
 import { StorageKeys } from "@/utils/global-vars";
 import { addItemQuantity, deleteItemPurchaseCartProducts, removeItemQuantity } from "@/services/purchase/purchase.service";
+import { CartWithoutProduct } from "@/components/cart-purchase/cart-without-products-add";
 
 interface CartModalProps {
 }
@@ -45,6 +46,28 @@ const MenuContainer = styled.div`
     @media (max-width: 290px){//aki
         width: 230px;   
                
+    }
+`
+
+const MenuContainerCartWithoutItems = styled.div`
+    display: flex;
+    flex-direction: column; /* Para garantir que os itens sejam empilhados verticalmente */
+    align-items: center;    
+    position: absolute;
+    right: 0px;
+    top: 100%;
+    padding: 2px;
+    z-index: 999;
+    width: 270px;
+    height: 100%;
+    min-height: calc(100vh - 150px);
+    max-height: calc(100vh - 150px); /* Altura máxima da viewport menos espaço para cabeçalhos e rodapé */
+    overflow-y: auto; /* Adiciona barra de rolagem vertical quando necessário */
+    background-color: var(--background-easy-gray);
+    padding: 0 5px;    
+
+    @media (max-width: 290px){//aki
+        width: 230px;               
     }
 `
 
@@ -151,27 +174,31 @@ export function CartMenuModal(props: CartModalProps) {
     }    
 
     return (
-        <MenuContainer>
-            <h1>{`Itens no Carrinho (${purchaseStorage && purchaseStorage.productsCart && purchaseStorage.productsCart.length > 0 ? purchaseStorage.productsCart.length : 0})`}</h1>
-
-            <ContainerAllCardsItems>
-                {purchaseStorage && purchaseStorage.productsCart ? purchaseStorage.productsCart.map((item: any, index: number) => (
-                    <CardItemCard
-                        key={index}
-                        productInCartStorage={item}
-                        onClickAddItem={() => incrementItemQuantity('purchase', index)}
-                        onClickDecrementItem={() => decrementItemQuantity('purchase', index)}
-                        removeItem={() => removeItemCart('purchase', index)}
-                    />
-                )) : ''}
-            </ContainerAllCardsItems>
-
-            <CartResumePurchase />
-
-            <ButtonNavigateCart><div>Ir Para o Carrinho</div></ButtonNavigateCart>
-            <ButtonAddMoreProducts><div>Escolher Mais Produtos</div></ButtonAddMoreProducts>
-        </MenuContainer>
-    )
+        purchaseStorage && purchaseStorage.productsCart && purchaseStorage.productsCart.length === 0 ? (
+            <MenuContainerCartWithoutItems><CartWithoutProduct/></MenuContainerCartWithoutItems>            
+        ) : (
+            <MenuContainer>
+                <h1>{`Itens no Carrinho (${purchaseStorage && purchaseStorage.productsCart && purchaseStorage.productsCart.length > 0 ? purchaseStorage.productsCart.length : 0})`}</h1>
+    
+                <ContainerAllCardsItems>
+                    {purchaseStorage && purchaseStorage.productsCart && purchaseStorage.productsCart.map((item: any, index: number) => (
+                        <CardItemCard
+                            key={index}
+                            productInCartStorage={item}
+                            onClickAddItem={() => incrementItemQuantity('purchase', index)}
+                            onClickDecrementItem={() => decrementItemQuantity('purchase', index)}
+                            removeItem={() => removeItemCart('purchase', index)}
+                        />
+                    ))}
+                </ContainerAllCardsItems>
+    
+                <CartResumePurchase />
+    
+                <ButtonNavigateCart><div>Ir Para o Carrinho</div></ButtonNavigateCart>
+                <ButtonAddMoreProducts><div>Escolher Mais Produtos</div></ButtonAddMoreProducts>
+            </MenuContainer>
+        )
+    );
 
 }
 

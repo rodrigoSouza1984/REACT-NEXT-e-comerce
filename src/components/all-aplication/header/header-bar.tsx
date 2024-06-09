@@ -236,7 +236,7 @@ export function Header(props: HeaderProps) {
         //productsCart
     }
 
-    return (
+    return (        
         <TagHeader>
             <Logo className={SairaStencil.className} href="/pages/list-products">Classifields</Logo>
             <ContainerSearchCartIconAvatar>
@@ -254,7 +254,7 @@ export function Header(props: HeaderProps) {
                         <div onClick={openModalCart}>
                             <CartControl />
                         </div>
-                        {modalCart && <CartMenuModal />}
+                        {modalCart && <CartMenuModal />}  
                     </CartControlWithModal>
 
                     <AvatarWithModal>
