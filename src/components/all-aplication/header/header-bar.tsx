@@ -204,8 +204,11 @@ export function Header(props: HeaderProps) {
         const handleClickOutside = (event: MouseEvent | TouchEvent) => {//ICONREF É UMA VAR CRIADA ACIMA            
             // Fecha o modal se estiver aberto e o clique não foi dentro do ícone ou do modal
             if (menuAvatar && iconRef.current && !iconRef.current.contains(event.target as Node)) {
-                setMenuAvatar(false);
-                setModalCart(false)                
+                setMenuAvatar(false);                
+            }
+
+            if(modalCart && iconRef.current && !iconRef.current.contains(event.target as Node)){
+                setModalCart(false)                 
             }
         };
 
@@ -219,7 +222,7 @@ export function Header(props: HeaderProps) {
             document.addEventListener("touchstart", handleClickOutside);
         };
 
-    }, [menuAvatar]);//ISSO AKI INDICA PARA O USE EFECT ATUALIZAR TODA VEZ QUE ESSA VARIAVEL TIVER ALGUMA ALTERCAO
+    }, [menuAvatar, modalCart]);//ISSO AKI INDICA PARA O USE EFECT ATUALIZAR TODA VEZ QUE ESSA VARIAVEL TIVER ALGUMA ALTERCAO
 
 
     const handleUpdateQuantity = (id?: string, quantity?: number) => {
