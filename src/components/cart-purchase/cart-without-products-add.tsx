@@ -1,7 +1,6 @@
 "use client"
 
 import styled from "styled-components";
-import { usePurchaseStorageContext } from "@/hooks/purchase/use-purchase-storage";
 import { CartPurchaseIcon } from "../icons/cart-purchase-icon";
 
 interface CartWithoutProductsProps {
