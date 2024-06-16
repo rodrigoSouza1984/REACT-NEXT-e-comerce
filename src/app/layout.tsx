@@ -9,6 +9,7 @@ import { Header } from "@/components/all-aplication/header/header-bar";
 import styled from "styled-components"
 import { FilterContextProvider } from "@/contexts/filters-context";
 import { PurchaseStorageProvider } from "@/contexts/purchase-storage-context";
+import { CategorysContextProvider } from "@/contexts/categorys-context";
 
 
 
@@ -37,18 +38,20 @@ export default function RootLayout({
         <ThemeProviders>
           <FilterContextProvider>
             <PurchaseStorageProvider>
+              <CategorysContextProvider>
 
-              <DefaultContainerFullScreen>
-                <DefaultContainerControlMaxWidthPage>
+                <DefaultContainerFullScreen>
+                  <DefaultContainerControlMaxWidthPage>
 
-                  <PageContainer>
-                    <Header />
-                    {children}
-                  </PageContainer>
+                    <PageContainer>
+                      <Header />
+                      {children}
+                    </PageContainer>
 
-                </DefaultContainerControlMaxWidthPage>
-              </DefaultContainerFullScreen>
-              
+                  </DefaultContainerControlMaxWidthPage>
+                </DefaultContainerFullScreen>
+                
+              </CategorysContextProvider>
             </PurchaseStorageProvider>
           </FilterContextProvider>
         </ThemeProviders>

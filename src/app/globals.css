@@ -11,7 +11,12 @@
   /* text colors */
   --text-dark: #737380;
   --delete-color: #D33838;
+
+  /* BORDER COLORS */
+  --orange-low: #FFA585;
 }
+
+
 
 * {
   box-sizing: border-box;
