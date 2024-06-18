@@ -11,6 +11,13 @@ export const DefaultContainerControlMaxWidthPage = styled.div`
     background-color: var(--custom-purple-classifield);
     height: 100%;  
     
+
+    @media (min-width: ${props => props.theme.celPhoneBreakPointSmaller}){//aki
+        width: 100%;  
+        //padding: 10px 20px;
+        //background-color: blue; 
+    }
+    
     @media (min-width: ${props => props.theme.celPhoneBreakPoint}){//aki
         width: 80%;
         //padding: 10px 20px;

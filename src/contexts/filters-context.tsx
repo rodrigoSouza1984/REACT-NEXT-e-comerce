@@ -1,5 +1,6 @@
 // "use client"
 
+import { PriorityFiltersProductsEnum } from "@/types/priority-filters-products";
 import { ReactNode, createContext, useDeferredValue, useState } from "react"
 
 interface ProviderProps {
@@ -10,12 +11,17 @@ interface ProviderProps {
 export const FilterContext = createContext({
     inputHeaderValue: '',
     setInputHeaderValue: (value: string) => {},   
+
+    priorityFilter: PriorityFiltersProductsEnum.NEWS,
+    setPriorityFilter: (value: any) => {}, 
 })
 
 export function FilterContextProvider({children} : ProviderProps){   
 
     const [inputHeaderValue, setInputHeaderValue] = useState('')
     const deferredInputHeaderValue = useDeferredValue(inputHeaderValue);
+
+    const [priorityFilter, setPriorityFilter] = useState(PriorityFiltersProductsEnum.NEWS)
     
 
     return (
@@ -23,6 +29,9 @@ export function FilterContextProvider({children} : ProviderProps){
                       
             inputHeaderValue: deferredInputHeaderValue,           
             setInputHeaderValue, 
+
+            priorityFilter, 
+            setPriorityFilter,
 
         }}>
             {children}

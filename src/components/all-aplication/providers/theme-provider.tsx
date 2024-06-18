@@ -12,7 +12,8 @@ export const theme = {
     desktopBreakpoint: "1360px",	    //=> tela para desktop
     tabletBreakPoint: "1100px",			//=> tela para tablet                                        
     smallerTabletBreakPoint: "740px",   //=> tela para tablet menor	
-    celPhoneBreakPoint: "643px"         //=> tela para celular
+    celPhoneBreakPoint: "643px",         //=> tela para celular
+    celPhoneBreakPointSmaller: "360px"  //=> tela menor para celular
 }
 
 export function ThemeProviders({ children }: DefaultProvidersProps) {

@@ -1,8 +1,10 @@
 "use client"
 
 import styled from "styled-components"
-import { MenuCategoryProps } from "./menu-categorys"
+import { MenuCategoryProps } from "./left-bar/menu-categorys"
 import { useEffect, useState, useRef } from "react"
+import { FilterByTypeMenuCategorysIcon } from "./left-bar/filter-and-menu-categorys-icone-sanduich"
+import { PriorityFiltersProducts } from "./right-bar/priority-filters-products-modal"
 
 
 interface FilterAndMenuCategorysBarProps {
@@ -108,9 +110,9 @@ const ArrowRight = styled(Arrow)`
 
 
 const ContainerFilterItensInBar = styled.div`
-    //display: none;      
+    display: none;      
 
-    @media (min-width: ${props => props.theme.celPhoneBreakPoint}){//aki
+    @media (min-width: ${props => props.theme.celPhoneBreakPointSmaller}){//aki
         width: 100%;        
         display: flex;    
         align-items: center;
@@ -119,36 +121,54 @@ const ContainerFilterItensInBar = styled.div`
     }      
 `
 
+const ContainerIconMenu = styled.div`
+    display: block; 
+
+    @media (min-width: ${props => props.theme.celPhoneBreakPointSmaller}){//aki
+        display: none;
+    }
+`
+
+const ContainerRight = styled.div`     
+    display: flex;    
+    align-items: center;
+    flex-direction: row;
+    justify-content: end; 
+    width: 50%; 
+    height:5px ;    
+    //background-color:green;    
+`
+
 export function FilterAndMenuCategorysBar(props: FilterAndMenuCategorysBarProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [showLeftArrow, setShowLeftArrow] = useState(false);
     const [showRightArrow, setShowRightArrow] = useState(true);
 
-    const handleScroll = () => {               
+    const handleScroll = () => {
         if (containerRef.current) {
-            const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;            
-            setShowLeftArrow(scrollLeft > 0);            
-            setShowRightArrow(scrollLeft + clientWidth < scrollWidth - 1 );            
+            const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
+            setShowLeftArrow(scrollLeft > 0);
+            setShowRightArrow(scrollLeft + clientWidth < scrollWidth - 1);
         }
     };
 
-    const scrollLeft = () => {      
-        handleScroll()  
+    const scrollLeft = () => {
+        handleScroll()
         if (containerRef.current) {
-            containerRef.current.scrollBy({ left: -100, behavior: 'smooth' });            
+            containerRef.current.scrollBy({ left: -100, behavior: 'smooth' });
         }
     };
 
-    const scrollRight = () => {  
-        handleScroll()      
+    const scrollRight = () => {
+        handleScroll()
         if (containerRef.current) {
-            containerRef.current.scrollBy({ left: 100, behavior: 'smooth' });            
+            containerRef.current.scrollBy({ left: 100, behavior: 'smooth' });
         }
     };
 
     useEffect(() => {
         handleScroll(); // Initial check        
-    } ,[]);
+    }, []);
 
 
     return (
@@ -156,13 +176,13 @@ export function FilterAndMenuCategorysBar(props: FilterAndMenuCategorysBarProps)
 
             <Container>
 
+                <ContainerIconMenu>
+                    <FilterByTypeMenuCategorysIcon />
+                </ContainerIconMenu>
+
                 <ContainerWrapper>
 
                     <ContainerLeft ref={containerRef} onScroll={handleScroll}>
-
-                        {/* <ContainerIconMenu>
-                        <FilterByTypeMenuIcon/>
-                    </ContainerIconMenu> */}
 
                         <ContainerFilterItensInBar>
                             <MenuCategoryProps />
@@ -171,15 +191,15 @@ export function FilterAndMenuCategorysBar(props: FilterAndMenuCategorysBarProps)
                     </ContainerLeft>
 
                     {(showRightArrow && !showLeftArrow) && <ArrowRight onClick={scrollRight}>{'>'}</ArrowRight>}
-                    {(showLeftArrow && !showRightArrow) && <ArrowLeft onClick={scrollLeft}>{'<'}</ArrowLeft>}         
+                    {(showLeftArrow && !showRightArrow) && <ArrowLeft onClick={scrollLeft}>{'<'}</ArrowLeft>}
 
-                    {(showRightArrow && showLeftArrow) && <ArrowRight onClick={scrollRight}>{'>'}</ArrowRight>}          
+                    {(showRightArrow && showLeftArrow) && <ArrowRight onClick={scrollRight}>{'>'}</ArrowRight>}
 
                 </ContainerWrapper>
 
-                {/* <ContainerRight>
-                    <FilterByPriority/>
-                </ContainerRight> */}
+                <ContainerRight>
+                    <PriorityFiltersProducts/>
+                </ContainerRight>
 
             </Container>
 

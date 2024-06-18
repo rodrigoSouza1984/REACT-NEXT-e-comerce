@@ -1,6 +1,6 @@
 "use client"
 
-import { FilterAndMenuCategorysBar } from "@/components/list-product/filters-and-menu-categorys-bar.tsx/filters-and-menu-categorys-bar"
+import { FilterAndMenuCategorysBar } from "@/components/list-product/filters-and-menu-categorys-bar/filters-and-menu-categorys-bar"
 import styled from "styled-components"
 
 const PageWrapper = styled.main`
