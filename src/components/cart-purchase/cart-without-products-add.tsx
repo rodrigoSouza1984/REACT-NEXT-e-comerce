@@ -8,7 +8,7 @@ interface CartWithoutProductsProps {
 
 const Container = styled.div`
     position: relative;
-    border: 1px solid var(--custom-gray-light);
+    border: 1px solid var(--custom-purple-classifield-with-opacity);
     border-radius: 8px;
     padding: 0px;
     margin-bottom: 10px;

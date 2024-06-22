@@ -14,7 +14,7 @@ export default function ListProducts() {
   return (
     <PageWrapper>
       {/* <BannerAnnounceds/> */}
-      <FilterAndMenuCategorysBar/>
+      <FilterAndMenuCategorysBar/>     
     </PageWrapper>
   )
 }

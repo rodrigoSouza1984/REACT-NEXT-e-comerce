@@ -74,7 +74,7 @@ const MenuContainerCartWithoutItems = styled.div`
 const ContainerAllCardsItems = styled.div`    
     display: flex;
     flex-direction: column;   
-    border: 1px solid var(--custom-gray-light);    
+    border: 1px solid var(--custom-purple-classifield-with-opacity);    
     border-radius: 8px;
     padding: 5px 5px;
     margin-bottom: 10px;    
@@ -109,7 +109,7 @@ const ButtonNavigateCart = styled.button`
 
 
 const ButtonAddMoreProducts = styled.button`
-    background: var(--custom-gray-light);
+    background: var(--custom-purple-classifield-with-opacity);
     mix-blend-mode: multiply;
     border-radius: 4px;
     color: white;

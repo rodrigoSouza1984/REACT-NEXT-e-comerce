@@ -3,5 +3,5 @@ export enum PriorityFiltersProductsEnum {
     NEWS = 'news',
     MINOR_PRICE = 'minor price',
     BIGGEST_PRICE = 'biggest price',
-    DETAILED_FILTERS = 'detailed filters'  
+    BUSCA_DETALHADA = 'busca detalhada'    
 }

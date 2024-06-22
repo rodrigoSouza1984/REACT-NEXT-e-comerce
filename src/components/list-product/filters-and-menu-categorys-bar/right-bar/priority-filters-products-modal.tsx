@@ -1,7 +1,10 @@
 import { ArrowIcon } from "@/components/icons/arrow-icon";
 import { useFiltersContext } from "@/hooks/products/use-filters-contexts";
+import { PriorityFiltersProductsEnum } from "@/types/priority-filters-products";
 import { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
+import { FormModalDetailSearch } from "../form-query/form-modal-detail-search";
+import { useForm } from "react-hook-form";
 
 
 
@@ -59,8 +62,7 @@ const FilterContainer = styled.div`
     }
 
     &:hover {        
-            background-color: rgba(173, 216, 230, 0.1); // lightblue com opacidade
-        cursor: pointer; // O cursor se transforma em uma mãozinha para indicar que o item é clicável
+            background-color: rgba(173, 216, 230, 0.1); // lightblue com opacidade        
     }
     
 `
@@ -113,23 +115,74 @@ const FilterItem = styled.li<PriorityFiltersProductsProps>`
 `
 
 
+const ModalToFormDetailSearch = styled.ul`    
+    position: absolute;
+    background: #FFFFFF;
+    width: 270px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 12px 16px;
+    z-index: 999;
+    
+    list-style: none;
+
+    top: 130%;
+    right: 10px;
+    height: 500px;
+    //width: 170px;   
+
+    li + li {   //aki so coloca marginto se tiver um item lista sobre o item lista o 1 por exemplo nao coloca
+        margin-top: 4px;
+    }
+
+    /* Triângulo na ponta direita do modal */
+    &::after {
+    content: '';
+    position: absolute;
+    top: -15px; /* Posiciona o triângulo acima do modal */
+    right: 0.5px; /* Posiciona o triângulo à direita do modal */
+    border-width: 10px; /* Tamanho do triângulo */
+    border-style: solid;
+    border-color: transparent transparent white transparent; /* Cores do triângulo */
+    z-index: 997;      
+    //filter: drop-shadow(0px 1.5px 0.7px rgba(0, 0, 0, 0.9)); /* Adiciona uma sombra alternativa *//* Adiciona sombra ao triângulo */  
+    }  
+`
+
+
 export function PriorityFiltersProducts(props: PriorityFiltersProductsProps) {
 
     const [isOpen, setIsOpen] = useState(false)    
+    const [isOpenDetailQuerys, setIsOpenDetailQuerys] = useState(false)   
 
     const { priorityFilter, setPriorityFilter } = useFiltersContext();
 
     const iconRef = useRef<HTMLDivElement>(null);
 
-    const handleOpen = () => setIsOpen(prev => !prev)
+    const handleOpen = () => {  
+        
+        if(isOpenDetailQuerys){
+            setIsOpenDetailQuerys(false)
+        }else{
+            setIsOpen(prev => !prev)
+        }        
+    }
 
-    const handleChangeItem = (data: any) => {
+    const handleChangeItem = (data: PriorityFiltersProductsEnum) => {
         console.log(data, 9999, data)
         setPriorityFilter(data)
 
         setTimeout(() => {
             handleOpen()
         }, 200)
+
+        if(data === PriorityFiltersProductsEnum.BUSCA_DETALHADA){
+
+            setTimeout(() => {
+                setIsOpenDetailQuerys(r => !r)
+            },300)
+            
+        }
     }
 
 
@@ -138,6 +191,7 @@ export function PriorityFiltersProducts(props: PriorityFiltersProductsProps) {
             // Fecha o modal se estiver aberto e o clique não foi dentro do ícone ou do modal
             if (isOpen && iconRef.current && !iconRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
+                setIsOpenDetailQuerys(false)
             }
         };
 
@@ -150,24 +204,30 @@ export function PriorityFiltersProducts(props: PriorityFiltersProductsProps) {
             document.removeEventListener('mousedown', handleClickOutside);
             document.addEventListener("touchstart", handleClickOutside);
         };
-    }, [isOpen]);
+    }, [isOpen]);    
 
     return (
         <FilterContainer ref={iconRef}>
             <div onClick={handleOpen}>
                 <button >
-                    Organizar por
+                    Detalhar Busca
                 </button>
                 <ArrowIcon />
             </div>
 
 
             {isOpen ? <PriorityFilter>
-                <FilterItem selected={priorityFilter === 'news'} onClick={() => handleChangeItem('news')}> Novidades </FilterItem>
-                <FilterItem selected={priorityFilter === 'biggest price'} onClick={() => handleChangeItem('biggest price')}> Preço: Maior - Menor </FilterItem>
-                <FilterItem selected={priorityFilter === 'minor price'} onClick={() => handleChangeItem('minor price')}> Preço: Menor - Maior </FilterItem>
-                <FilterItem selected={priorityFilter === 'popularity'} onClick={() => handleChangeItem('popularity')}> Mais vendidos </FilterItem>
+                <FilterItem selected={priorityFilter === 'news'} onClick={() => handleChangeItem(PriorityFiltersProductsEnum.NEWS)}> Novidades </FilterItem>
+                <FilterItem selected={priorityFilter === 'biggest price'} onClick={() => handleChangeItem(PriorityFiltersProductsEnum.BIGGEST_PRICE)}> Preço: Maior - Menor </FilterItem>
+                <FilterItem selected={priorityFilter === 'minor price'} onClick={() => handleChangeItem(PriorityFiltersProductsEnum.MINOR_PRICE)}> Preço: Menor - Maior </FilterItem>
+                <FilterItem selected={priorityFilter === 'popularity'} onClick={() => handleChangeItem(PriorityFiltersProductsEnum.POPULARITY)}> Mais vendidos </FilterItem>
+                <FilterItem selected={priorityFilter === 'busca detalhada'} onClick={() => handleChangeItem(PriorityFiltersProductsEnum.BUSCA_DETALHADA)}> busca detalhada </FilterItem>
             </PriorityFilter> : ''}
+
+            {isOpenDetailQuerys ? <ModalToFormDetailSearch>
+                <FormModalDetailSearch></FormModalDetailSearch>    
+            </ModalToFormDetailSearch>   : ''}
+                    
 
         </FilterContainer>
     )

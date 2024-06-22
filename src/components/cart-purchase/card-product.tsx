@@ -138,7 +138,7 @@ const QuantityContainer = styled.div`
         text-align: center;
         margin-left: 4px;
         margin-right: 4px;
-        border: 1px solid var(--custom-gray-light);
+        border: 1px solid var(--custom-purple-classifield-with-opacity);
         border-radius: 5px;        
     }   
 
