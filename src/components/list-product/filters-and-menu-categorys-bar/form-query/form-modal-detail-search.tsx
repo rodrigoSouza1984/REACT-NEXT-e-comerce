@@ -3,6 +3,7 @@
 import styled from "styled-components"
 import { FormProvider, useForm } from "react-hook-form"
 import { SelectInputWithIcon } from "./inputs-query/select-input-with-icon"
+import { RadioInputComponent } from "./inputs-query/radio-input"
 
 interface FormModalDetailSearchProps {
 
@@ -12,12 +13,11 @@ const ContainerFormModal = styled.header`
     display: flex;    
     align-items: start;
     flex-direction: column;
-    justify-content: center;  
-    background-color: var(--custom-purple-classifield);    
+    justify-content: start;       
     width: 100%;
-    height: 100px;
+    //height: 100%;
     padding: 10px 10px;
-    background-color: rgba(173, 216, 230, 0.3); 
+    background-color: rgba(173, 216, 230, 0.3);
 `
 
 // Componente estilizado para o botão
@@ -52,6 +52,7 @@ export function FormModalDetailSearch(props: FormModalDetailSearchProps) {
     const methods = useForm({
         defaultValues: {
             imovelType: '', // Defina aqui o valor padrão para o campo
+            transactionType: [], 
         },
     });
     const { handleSubmit } = methods;
@@ -66,7 +67,8 @@ export function FormModalDetailSearch(props: FormModalDetailSearchProps) {
             <FormProvider {...methods}>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <SelectInputWithIcon />
+                    <SelectInputWithIcon />  
+                    <RadioInputComponent />                 
                     <StyledButtonSubmitForm type="submit">Enviar</StyledButtonSubmitForm>
                 </form>
 

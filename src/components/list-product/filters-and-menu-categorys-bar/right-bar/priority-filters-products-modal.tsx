@@ -117,7 +117,8 @@ const FilterItem = styled.li<PriorityFiltersProductsProps>`
 
 const ModalToFormDetailSearch = styled.ul`    
     position: absolute;
-    background: #FFFFFF;
+    //background: #FFFFFF;
+    background-color: var(--background-easy-gray); 
     width: 270px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
