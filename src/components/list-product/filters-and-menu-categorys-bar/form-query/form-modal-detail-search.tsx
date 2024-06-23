@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { FormProvider, useForm } from "react-hook-form"
 import { SelectInputWithIcon } from "./inputs-query/select-input-with-icon"
 import { RadioInputComponent } from "./inputs-query/radio-input"
+import ValuesRangeInput from "./inputs-query/values-range-input"
 
 interface FormModalDetailSearchProps {
 
@@ -68,7 +69,8 @@ export function FormModalDetailSearch(props: FormModalDetailSearchProps) {
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <SelectInputWithIcon />  
-                    <RadioInputComponent />                 
+                    <RadioInputComponent />    
+                    <ValuesRangeInput/>             
                     <StyledButtonSubmitForm type="submit">Enviar</StyledButtonSubmitForm>
                 </form>
 
