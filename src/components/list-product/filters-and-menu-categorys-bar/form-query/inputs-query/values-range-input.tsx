@@ -15,9 +15,8 @@ interface ValuesRangeInputProps {
 const RangeContainer = styled.div`
   display: flex;
   justify-content: start;
-  gap: 10px;
-  margin-top: 10px;
-  //padding: 3px 10px;  
+  gap: 10px;  
+  margin-bottom: 10px;
 `;
 
 const InputWrapper = styled.div`
@@ -26,25 +25,12 @@ const InputWrapper = styled.div`
   font-size: 10px;
   color: var(--custom-purple-classifield);
   height: 30px;  
-  width: 100%;  
+  width: 100%;    
 
   >div{
     width: 100%;    
     font-size: 10px;    
   }
-`;
-
-const TextInputWrapper = styled.div`
-    position: relative;
-    display: flex;
-    align-items: center;
-`;
-
-const CurrencyLabel = styled.span`
-    position: absolute;
-    left: 10px;
-    font-size: 10px;
-    color: var(--custom-purple-classifield);
 `;
 
 const TextInput = styled.input`
@@ -56,6 +42,27 @@ const TextInput = styled.input`
   font-size: 10px;  
   color: var(--custom-purple-classifield);  
   height: 30px;
+  background-color: var(--background-secondary);
+
+  &::placeholder {
+        color: var(--custom-purple-classifield); /* Define a cor do placeholder */
+    }
+
+    &::-webkit-input-placeholder {
+        color: var(--custom-purple-classifield); /* Chrome, Safari, Opera */
+    }
+
+    &::-moz-placeholder {
+        color: var(--custom-purple-classifield); /* Firefox 19+ */
+    }
+
+    &:-ms-input-placeholder {
+        color: var(--custom-purple-classifield); /* Internet Explorer 10+ */
+    }
+
+    &:-moz-placeholder {
+        color: var(--custom-purple-classifield); /* Firefox 18- */
+    }
 `;
 
 export default function ValuesRangeInput() {
@@ -96,28 +103,29 @@ export default function ValuesRangeInput() {
         <div>
           de R$
         </div>
-        <TextInputWrapper>
-          {(Number(priceMin) <= 0) ? <CurrencyLabel>R$ 00,00</CurrencyLabel> : ''}
+        
           <TextInput
             type="text"
             value={priceMin}
             onChange={handleMinChange}
+            placeholder="R$ 00,00"
           />
-        </TextInputWrapper>
+        
       </InputWrapper>
 
       <InputWrapper>
         <div>
           até R$
         </div>
-        <TextInputWrapper>
-          {(Number(priceMax) <= 0) ? <CurrencyLabel>R$ 00,00</CurrencyLabel> : ''}
+        
+          
           <TextInput
             type="text"
             value={priceMax}
             onChange={handleMaxChange}
+            placeholder="R$ 00,00"
           />
-        </TextInputWrapper>
+        
       </InputWrapper>
 
     </RangeContainer>

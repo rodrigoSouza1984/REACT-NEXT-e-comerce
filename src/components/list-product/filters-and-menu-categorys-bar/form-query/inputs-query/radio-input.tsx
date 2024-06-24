@@ -14,7 +14,7 @@ const RadioContainer = styled.div`
   justify-content: start;
   gap: 30px;  
   background-color: var(--background-easy-gray); 
-  margin-top: 10px;
+  margin-bottom: 10px;
   padding: 3px 10px;
   border: 1px solid var(--custom-purple-classifield);
   border-radius: 8px;

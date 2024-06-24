@@ -14,6 +14,7 @@ const SelectContainer = styled.div`
 
     display: flex;
     align-items: center;   
+    margin-bottom: 10px;
 `
 
 const StyledSelect = styled.select`

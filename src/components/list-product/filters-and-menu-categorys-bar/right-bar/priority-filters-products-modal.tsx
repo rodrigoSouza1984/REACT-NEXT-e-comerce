@@ -117,12 +117,12 @@ const FilterItem = styled.li<PriorityFiltersProductsProps>`
 
 const ModalToFormDetailSearch = styled.ul`    
     position: absolute;
-    //background: #FFFFFF;
-    background-color: var(--background-easy-gray); 
+    background: #FFFFFF;
+    //background-color: var(--background-easy-gray); 
     width: 270px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
-    padding: 12px 16px;
+    padding: 10px 10px;
     z-index: 999;
     
     list-style: none;
@@ -133,7 +133,7 @@ const ModalToFormDetailSearch = styled.ul`
     //width: 170px;   
 
     li + li {   //aki so coloca marginto se tiver um item lista sobre o item lista o 1 por exemplo nao coloca
-        margin-top: 4px;
+        margin-top: 4px;        
     }
 
     /* Triângulo na ponta direita do modal */
@@ -145,7 +145,7 @@ const ModalToFormDetailSearch = styled.ul`
     border-width: 10px; /* Tamanho do triângulo */
     border-style: solid;
     border-color: transparent transparent white transparent; /* Cores do triângulo */
-    z-index: 997;      
+    z-index: 997;   
     //filter: drop-shadow(0px 1.5px 0.7px rgba(0, 0, 0, 0.9)); /* Adiciona uma sombra alternativa *//* Adiciona sombra ao triângulo */  
     }  
 `

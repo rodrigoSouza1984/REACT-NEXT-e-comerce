@@ -5,6 +5,8 @@ import { FormProvider, useForm } from "react-hook-form"
 import { SelectInputWithIcon } from "./inputs-query/select-input-with-icon"
 import { RadioInputComponent } from "./inputs-query/radio-input"
 import ValuesRangeInput from "./inputs-query/values-range-input"
+import { TextInputWithLabel } from "./inputs-query/input-text"
+
 
 interface FormModalDetailSearchProps {
 
@@ -53,7 +55,7 @@ export function FormModalDetailSearch(props: FormModalDetailSearchProps) {
     const methods = useForm({
         defaultValues: {
             imovelType: '', // Defina aqui o valor padrão para o campo
-            transactionType: [], 
+            transactionType: [],
         },
     });
     const { handleSubmit } = methods;
@@ -68,9 +70,12 @@ export function FormModalDetailSearch(props: FormModalDetailSearchProps) {
             <FormProvider {...methods}>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <SelectInputWithIcon />  
-                    <RadioInputComponent />    
-                    <ValuesRangeInput/>             
+                    <SelectInputWithIcon />
+                    <RadioInputComponent />
+                    <ValuesRangeInput />
+                    <TextInputWithLabel name="street" label="Rua" placeholder="Rua:" />
+                    <TextInputWithLabel name="neighborhood" label="Bairro" placeholder="Bairro:" />
+                    <TextInputWithLabel name="city" label="Cidade" placeholder="Cidade:" />
                     <StyledButtonSubmitForm type="submit">Enviar</StyledButtonSubmitForm>
                 </form>
 
