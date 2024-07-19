@@ -10,6 +10,7 @@ import styled from "styled-components"
 import { FilterContextProvider } from "@/contexts/filters-context";
 import { PurchaseStorageProvider } from "@/contexts/purchase-storage-context";
 import { CategorysContextProvider } from "@/contexts/categorys-context";
+import { ProductProvider } from "@/contexts/product-context";
 
 
 
@@ -42,15 +43,17 @@ export default function RootLayout({
 
                 <DefaultContainerFullScreen>
                   <DefaultContainerControlMaxWidthPage>
+                    <ProductProvider>
 
-                    <PageContainer>
-                      <Header />
-                      {children}
-                    </PageContainer>
+                      <PageContainer>
+                        <Header />
+                        {children}
+                      </PageContainer>
 
+                    </ProductProvider>
                   </DefaultContainerControlMaxWidthPage>
                 </DefaultContainerFullScreen>
-                
+
               </CategorysContextProvider>
             </PurchaseStorageProvider>
           </FilterContextProvider>

@@ -118,19 +118,17 @@ const FilterItem = styled.li<PriorityFiltersProductsProps>`
 const ModalToFormDetailSearch = styled.ul`    
     position: absolute;
     background: #FFFFFF;
-    //background-color: var(--background-easy-gray); 
+    background-color: var(--background-easy-gray); 
     width: 270px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     padding: 10px 10px;
     z-index: 999;
-    
+
     list-style: none;
 
     top: 130%;
-    right: 10px;
-    height: 500px;
-    //width: 170px;   
+    right: 10px;    
 
     li + li {   //aki so coloca marginto se tiver um item lista sobre o item lista o 1 por exemplo nao coloca
         margin-top: 4px;        
@@ -144,9 +142,9 @@ const ModalToFormDetailSearch = styled.ul`
     right: 0.5px; /* Posiciona o triângulo à direita do modal */
     border-width: 10px; /* Tamanho do triângulo */
     border-style: solid;
-    border-color: transparent transparent white transparent; /* Cores do triângulo */
-    z-index: 997;   
-    //filter: drop-shadow(0px 1.5px 0.7px rgba(0, 0, 0, 0.9)); /* Adiciona uma sombra alternativa *//* Adiciona sombra ao triângulo */  
+    border-color: transparent transparent var(--background-easy-gray) transparent; /* Cores do triângulo */
+    z-index: 997;  
+    
     }  
 `
 
@@ -188,9 +186,11 @@ export function PriorityFiltersProducts(props: PriorityFiltersProductsProps) {
 
 
     useEffect(() => {
-        const handleClickOutside = (event: MouseEvent | TouchEvent) => {            
+        const handleClickOutside = (event: MouseEvent | TouchEvent) => {           
+            console.log("click event") 
             // Fecha o modal se estiver aberto e o clique não foi dentro do ícone ou do modal
-            if (isOpen && iconRef.current && !iconRef.current.contains(event.target as Node)) {
+            if ((isOpenDetailQuerys || isOpen) && iconRef.current && !iconRef.current.contains(event.target as Node)) {
+                console.log("click event 2") 
                 setIsOpen(false);
                 setIsOpenDetailQuerys(false)
             }
@@ -205,7 +205,7 @@ export function PriorityFiltersProducts(props: PriorityFiltersProductsProps) {
             document.removeEventListener('mousedown', handleClickOutside);
             document.addEventListener("touchstart", handleClickOutside);
         };
-    }, [isOpen]);    
+    }, [isOpen, isOpenDetailQuerys]);    
 
     return (
         <FilterContainer ref={iconRef}>
