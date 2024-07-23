@@ -7,6 +7,7 @@ export const DefaultContainerFullScreen = styled.div`
     flex-direction: column;  
     align-items: center;    
     background-color: var(--background-easy-gray);
+    min-height: 100vh;
     height: 100vh;
     //background-color: green;
 `

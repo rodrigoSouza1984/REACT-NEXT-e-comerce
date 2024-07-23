@@ -7,10 +7,20 @@ export const DefaultContainerControlMaxWidthPage = styled.div`
     flex-direction: column;  
     align-items: center;  
     width: 100%;   
-    padding: 5px 5px;    
-    background-color: var(--custom-purple-classifield);
-    height: 100%;  
-    
+    padding: 15px 15px;    
+    background-color: var(--custom-purple-classifield);    
+    min-height: 100vh;
+    height: auto; /* Permite que o contêiner cresça conforme necessário */
+
+    //parte overflow ate scrollbar-with eh para o background sempre ir ateh o final do heigth tem que ter
+    overflow-y: auto; /* Adiciona barra de rolagem se o conteúdo exceder a altura da tela */
+    /* Esconde a barra de rolagem */
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+    -ms-overflow-style: none; /* IE e Edge */
+    scrollbar-width: none; /* Firefox */
 
     @media (min-width: ${props => props.theme.celPhoneBreakPointSmaller}){//aki
         width: 100%;  

@@ -1,7 +1,7 @@
 "use client"
 
 import { FilterAndMenuCategorysBar } from "@/components/list-product/filters-and-menu-categorys-bar/filters-and-menu-categorys-bar"
-import { ProductCard } from "@/components/product-card/product-card-component"
+import { ProductList } from "@/components/list-product/product-list"
 import styled from "styled-components"
 
 const PageWrapper = styled.main`
@@ -16,7 +16,7 @@ export default function ListProducts() {
     <PageWrapper>
       {/* <BannerAnnounceds/> */}
       <FilterAndMenuCategorysBar/>   
-      <ProductCard/>  
+      <ProductList/>  
     </PageWrapper>
   )
 }

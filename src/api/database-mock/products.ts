@@ -33,6 +33,7 @@ export const products = [
     qtdNote4AndHalf: 21,
     qtdNote5: 50,
     description: "At sed adipisci ut ullam eaque. Et totam architecto eligendi. Eos sed veniam praesentium consequatur assumenda. Ut impedit quo a officiis est corrupti atque ea. Dignissimos voluptatem eaque nesciunt. Aut ipsam aut.",
+    coverImage: "https://storage.googleapis.com/xesque-dev/challenge-images/camiseta-04.jpg",
     images: [
       {
         id: 1,
@@ -103,6 +104,7 @@ export const products = [
     qtdNote4AndHalf: 21,
     qtdNote5: 5,
     description: "Qui beatae provident eos vitae libero ut neque. Quisquam hic quas repellat natus illo ex. Enim debitis repudiandae veniam non quos dolores maxime. Inventore labore sint id. Labore repudiandae deserunt sed quia.",
+    coverImage: "https://storage.googleapis.com/xesque-dev/challenge-images/caneca-03.jpg",
     images: [
       {
         id: 4,
@@ -173,6 +175,7 @@ export const products = [
     qtdNote4AndHalf: 21,
     qtdNote5: 30,
     description: "Est et enim consequuntur. Quaerat saepe possimus est in veritatis. Repellendus corporis culpa voluptas voluptatibus numquam vel corporis mollitia. Natus vero laudantium explicabo sapiente tenetur. Non est consequuntur sit facilis quia.",
+    coverImage: "https://storage.googleapis.com/xesque-dev/challenge-images/caneca-06.jpg",
     images: [
       {
         id: 7,
@@ -243,6 +246,7 @@ export const products = [
     qtdNote4AndHalf: 21,
     qtdNote5: 25,    
     description: "Consequatur rerum tenetur eum et est ipsum voluptate. Tempora voluptatem nihil dolores sed dolorem. Deleniti accusamus reprehenderit iste iure eligendi.",
+    coverImage: "https://storage.googleapis.com/xesque-dev/challenge-images/caneca-02.jpg",
     images: [
       {
         id: 10,
@@ -313,6 +317,7 @@ export const products = [
     qtdNote4AndHalf: 21,
     qtdNote5: 32,    
     description: "Qui a et quis commodi earum. Repellat soluta eligendi officiis repellat architecto qui odit non. Neque aut quod. Aut omnis quasi suscipit amet itaque. Eos omnis quam aperiam deserunt nobis et quod totam.",
+    coverImage: "https://storage.googleapis.com/xesque-dev/challenge-images/camiseta-05.jpg",
     images: [
       {
         id: 14,
@@ -383,6 +388,7 @@ export const products = [
     qtdNote4AndHalf: 21,
     qtdNote5: 44,    
     description: "Optio eos sit. Deleniti eos quo alias consequatur. Facere quos rem aut aut. Laboriosam recusandae expedita. Ad molestiae pariatur maxime assumenda quis labore voluptatem quisquam. Velit quos unde minus quod earum recusandae accusamus omnis.",
+    coverImage: "https://storage.googleapis.com/xesque-dev/challenge-images/caneca-04.jpg",
     images: [
       {
         id: 17,

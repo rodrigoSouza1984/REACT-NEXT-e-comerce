@@ -25,7 +25,8 @@ const Card = styled.div`
 
     background: var(--background-easy-gray);
     backdrop-filter: blur(10px);
-    border-radius: 0px 0px 4px 4px;
+    border-radius: 0px 0px 4px 4px;    
+    height: 100%;
 
     &:hover {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
@@ -85,27 +86,29 @@ svg {
   }
 `
 
-export function ProductCard() {
+export function ProductCard(props: any) {
     const { product, setProduct } = useProductContext()
     const [iconcontrol, seticoncontrol] = useState(true)
 
     const productProps = products[0]
 
-    const price = formatPrice(productProps.price_in_cents)
+    const price = formatPrice(props.product.price_in_cents)
 
     const router = useRouter()
 
     const handleNavigate = () => {
-        setProduct(productProps)
+        setProduct(props.product)
 
-        router.push("/pages/product-detail?id=" + productProps.id)
+        router.push("/pages/product-detail?id=" + props.product.id)
     }
+
+    console.log(props.product, '88888')
 
     return (
         <Card >
-            <img src={productProps.images[0].image_url} onClick={handleNavigate}/>
+            <img src={props.product.coverImage} onClick={handleNavigate}/>
             <div>
-                <h3>{productProps.name}</h3>
+                <h3>{props.product.name}</h3>
                 <Divider />
 
                 <ContainerPriceAndHeart $iconcontrol={iconcontrol}>
