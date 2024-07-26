@@ -1,5 +1,6 @@
 // "use client"
 
+import { filterItemsCategorysData } from "@/types/filter-types-categorys-list";
 import { PriorityFiltersProductsEnum } from "@/types/priority-filters-products";
 import { ReactNode, createContext, useDeferredValue, useState } from "react"
 

@@ -4,8 +4,7 @@ import { PriorityFiltersProductsEnum } from "@/types/priority-filters-products";
 import { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import { FormModalDetailSearch } from "../form-query/form-modal-detail-search";
-import { useForm } from "react-hook-form";
-
+import { useProductContext } from "@/hooks/products/use-products-context";
 
 
 interface PriorityFiltersProductsProps {
@@ -154,7 +153,10 @@ export function PriorityFiltersProducts(props: PriorityFiltersProductsProps) {
     const [isOpen, setIsOpen] = useState(false)    
     const [isOpenDetailQuerys, setIsOpenDetailQuerys] = useState(false)   
 
-    const { priorityFilter, setPriorityFilter } = useFiltersContext();
+    const { priorityFilter, setPriorityFilter } = useFiltersContext(); 
+    
+    const { setProductList } = useProductContext()
+    const { inputHeaderValue} = useFiltersContext()
 
     const iconRef = useRef<HTMLDivElement>(null);
 
@@ -181,7 +183,8 @@ export function PriorityFiltersProducts(props: PriorityFiltersProductsProps) {
                 setIsOpenDetailQuerys(r => !r)
             },300)
             
-        }
+        }         
+     
     }
 
 

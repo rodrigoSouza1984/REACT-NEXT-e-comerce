@@ -1,5 +1,8 @@
 import { MenuIcon } from "@/components/icons/menu-icon"
 import { categorysFilter } from "@/hooks/products/use-categorys-context"
+import { useFiltersContext } from "@/hooks/products/use-filters-contexts"
+import { useProductContext } from "@/hooks/products/use-products-context"
+import { ProductService } from "@/services/products/product.service"
 import { filterItemsCategorysData } from "@/types/filter-types-categorys-list"
 import { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
@@ -96,13 +99,14 @@ const CategoryItem = styled.li<FilterByTypeMenuCategorysIconProps>`
 export function FilterByTypeMenuCategorysIcon(props: FilterByTypeMenuCategorysIconProps) {
     const [isOpen, setIsOpen] = useState(false)   
     const iconRef = useRef<HTMLDivElement>(null);
+    const { getAllProducts } = ProductService();
 
     const handleOpen = () => {
         setIsOpen(prev => !prev)
         console.log(isOpen, '9999')
     }
 
-    const { categoryType, setCategoryType } = categorysFilter()
+    const { categoryType, setCategoryType } = categorysFilter()   
 
     const handleChangeItem = (data: any) => {
         console.log(data, 9999, data)
@@ -110,8 +114,13 @@ export function FilterByTypeMenuCategorysIcon(props: FilterByTypeMenuCategorysIc
 
         setTimeout(() => {
             handleOpen()
-        }, 200)
+        }, 200)         
     }
+
+    // UseEffect para chamar getAllProducts quando categoryType mudar
+    useEffect(() => {
+        getAllProducts();
+    }, [categoryType]); // Dependência de categoryType
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent | TouchEvent) => {

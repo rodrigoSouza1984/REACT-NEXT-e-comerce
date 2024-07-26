@@ -9,13 +9,13 @@ interface ProviderProps {
 
 
 export const CategorysContext = createContext({
-    categoryType: filterItemsCategorysData[0].type,
+    categoryType: 'ALL',
     setCategoryType: (value: any) => {},   
 })
 
 export function CategorysContextProvider({children} : ProviderProps){ 
     
-    const [categoryType, setCategoryType] = useState(filterItemsCategorysData[0].type)
+    const [categoryType, setCategoryType] = useState('ALL')
 
     return (
         <CategorysContext.Provider value={{                   

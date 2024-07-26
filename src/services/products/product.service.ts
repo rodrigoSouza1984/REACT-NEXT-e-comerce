@@ -1,34 +1,55 @@
 import { products } from "@/api/database-mock/products"
+import { categorysFilter } from "@/hooks/products/use-categorys-context";
+import { useFiltersContext } from "@/hooks/products/use-filters-contexts";
+import { useProductContext } from "@/hooks/products/use-products-context";
 
-export function getAllProducts(){
-    try{
+export const ProductService = () => {
+    const { setProductList } = useProductContext();
+    const { inputHeaderValue, priorityFilter } = useFiltersContext();
+    const {categoryType} = categorysFilter()
 
-        const listProducts = products
+    const getAllProducts = async () => {
+        try {            
 
-        return listProducts
+            console.log(priorityFilter, 7777, categoryType)
 
-    }catch(err){
-        //console.log('getAllProducts function: ', err)
-        return `error in getAll products functions: ${err}`
-    }
-}
+            console.log(7776, categoryType)
 
+            let listProducts = null            
 
-export function getProductById(productId: string){
-    try{
+            if(categoryType === 'ALL'){                
+                listProducts = products
+            }else{                
+                listProducts = products.filter(r => r.typeProduct.toLowerCase() === categoryType.toLowerCase())                
+            }
 
-        const listProducts = products
+            //aki agora colocar os filtros necessarios exemplo do priorityFilter que eh o mais vendido preco baixo etc
 
-        const product = listProducts.find(r => r.id === productId)
+            setProductList(listProducts)      
 
-        if(!product){
-            throw new Error('Product not found');
+        } catch (err) {            
+            return `error in getAll products functions: ${err}`
         }
+    };
 
-        return product
+    const getProductById = (productId: number) => {
+        try {
 
-    }catch(err: any){
-        //console.log('getAllProducts error function: ', err)
-        return `error in getById product function: ${err}`
-    }
-}
+            const listProducts = products
+
+            const product = listProducts.find(r => r.id === productId)
+
+            if (!product) {
+                throw new Error('Product not found');
+            }
+
+            return product
+
+        } catch (err: any) {
+            //console.log('getAllProducts error function: ', err)
+            return `error in getById product function: ${err}`
+        }
+    };
+
+    return { getAllProducts, getProductById };
+};

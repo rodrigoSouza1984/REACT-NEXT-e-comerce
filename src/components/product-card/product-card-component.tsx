@@ -87,10 +87,8 @@ svg {
 `
 
 export function ProductCard(props: any) {
-    const { product, setProduct } = useProductContext()
-    const [iconcontrol, seticoncontrol] = useState(true)
-
-    const productProps = products[0]
+    const { setProduct } = useProductContext()
+    const [iconcontrol, seticoncontrol] = useState(true)   
 
     const price = formatPrice(props.product.price_in_cents)
 
@@ -102,7 +100,7 @@ export function ProductCard(props: any) {
         router.push("/pages/product-detail?id=" + props.product.id)
     }
 
-    console.log(props.product, '88888')
+    //console.log(props.product, '88888')
 
     return (
         <Card >

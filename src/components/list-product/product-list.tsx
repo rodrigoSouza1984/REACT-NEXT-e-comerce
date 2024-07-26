@@ -1,8 +1,10 @@
 "use client"
 
-import { products } from "@/api/database-mock/products"
 import styled from "styled-components"
 import { ProductCard } from "../product-card/product-card-component"
+import { useProductContext } from "@/hooks/products/use-products-context"
+import { useEffect } from "react"
+import { ProductService } from "@/services/products/product.service"
 
 interface ProductsListProps {
 }
@@ -53,15 +55,22 @@ const ListContainer = styled.div`
 
 //fixo 4 na tela -> grid-template-columns: repeat(4, 256px);
 
-export function ProductList(props: ProductsListProps) {   
-    const data = products
+export function ProductList(props: ProductsListProps) {
 
-    console.log(data)
+    const { productList, setProductList } = useProductContext()
+    const { getAllProducts } = ProductService();
+
+    useEffect(() => {
+
+        getAllProducts()
+        
+    },[setProductList]);    
+
     return (
         <Container>
             <ListContainer>
-                {data?.map(product => <ProductCard
-                    key={product.id}                    
+                {productList?.map((product: any) => <ProductCard
+                    key={product.id}
                     product={product}
                 />)}
             </ListContainer>
