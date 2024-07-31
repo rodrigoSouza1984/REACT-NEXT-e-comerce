@@ -2,9 +2,10 @@ import { products } from "@/api/database-mock/products"
 import { categorysFilter } from "@/hooks/products/use-categorys-context";
 import { useFiltersContext } from "@/hooks/products/use-filters-contexts";
 import { useProductContext } from "@/hooks/products/use-products-context";
+import { randomInt } from "crypto";
 
 export const ProductService = () => {
-    const { setProductList } = useProductContext();
+    const { setProductList, setQuantityTotalProduct } = useProductContext();
     const { inputHeaderValue, priorityFilter } = useFiltersContext();
     const {categoryType} = categorysFilter()
 
@@ -25,7 +26,8 @@ export const ProductService = () => {
 
             //aki agora colocar os filtros necessarios exemplo do priorityFilter que eh o mais vendido preco baixo etc
 
-            setProductList(listProducts)      
+            setProductList(listProducts) 
+            setQuantityTotalProduct(30)     
 
         } catch (err) {            
             return `error in getAll products functions: ${err}`

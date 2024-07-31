@@ -11,6 +11,7 @@ import { FilterContextProvider } from "@/contexts/filters-context";
 import { PurchaseStorageProvider } from "@/contexts/purchase-storage-context";
 import { CategorysContextProvider } from "@/contexts/categorys-context";
 import { ProductProvider } from "@/contexts/product-context";
+import { ProductPaginationProvider } from "@/contexts/product-pagination-context";
 
 
 
@@ -44,12 +45,14 @@ export default function RootLayout({
                 <DefaultContainerFullScreen>
                   <DefaultContainerControlMaxWidthPage>
                     <ProductProvider>
+                      <ProductPaginationProvider>
 
-                      <PageContainer>
-                        <Header />
-                        {children}
-                      </PageContainer>
+                        <PageContainer>
+                          <Header />
+                          {children}
+                        </PageContainer>
 
+                      </ProductPaginationProvider>
                     </ProductProvider>
                   </DefaultContainerControlMaxWidthPage>
                 </DefaultContainerFullScreen>
