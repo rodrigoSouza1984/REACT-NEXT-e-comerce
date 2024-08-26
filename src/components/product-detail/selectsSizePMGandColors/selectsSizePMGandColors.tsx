@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 
-interface ProductSelectsProps {
+interface SelectsSizePMGandColorsProps {
     product: any;
     selectedSize: any;
     setSelectedSize: (size: any) => void;
@@ -27,20 +27,18 @@ const LineSelectsButtons = styled.div`
     }
 `;
 
-export function ProductSelects({ product, selectedSize, setSelectedSize, selectedColor, setSelectedColor }: ProductSelectsProps) {
+export function SelectsSizePMGandColorsProps({ product, selectedSize, setSelectedSize, selectedColor, setSelectedColor }: SelectsSizePMGandColorsProps) {
 
+    //Update colors based on selected size
     const selectedSizeObject = product.size.find(
-        (sizeObj: any) => {
-            console.log(selectedSize, 99999999)
-            if(sizeObj.size && sizeObj.size !== ''){
-                sizeObj.size === selectedSize
-            }else if(sizeObj.width_in_centimeters){
-                sizeObj.width_in_centimeters === selectedSize
-            }
-            
-        }
+        (sizeObj: any) => sizeObj.size === selectedSize
     );
     const colors = selectedSizeObject?.color || [];
+
+    if (selectedColor === '') {
+        setSelectedColor(selectedSizeObject?.color[0].color)
+    }
+
 
     return (
         <LineSelectsButtons>
@@ -52,11 +50,8 @@ export function ProductSelects({ product, selectedSize, setSelectedSize, selecte
                 }}
             >
                 {product.size.map((option: any, index: any) => (
-                    <option key={index} value={option.size !== '' ? option.size : {width_in_centimeters : option.width_in_centimeters, height_in_centimeters : option.height_in_centimeters, depth_in_centimeters : option.depth_in_centimeters}}>
-                        {option.size ?
-                            option.size.toUpperCase() :
-                            `${option.width_in_centimeters}x${option.height_in_centimeters}x${option.depth_in_centimeters}`
-                        }
+                    <option key={index} value={option.size}>
+                        {option.size.toUpperCase()}
                     </option>
                 ))}
             </select>

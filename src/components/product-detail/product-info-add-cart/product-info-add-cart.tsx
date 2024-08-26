@@ -4,7 +4,7 @@ import { CartIconButtonColorWhite } from "@/components/icons/cart-icon-button-wh
 import { formatPrice } from "@/utils/formatted-price"
 import { useEffect, useState } from "react"
 import styled from "styled-components"
-import { ProductSelects } from "../selectsSizeColors/selectsSizeColors"
+import { SelectsSizePMGandColorsProps } from "../selectsSizePMGandColors/selectsSizePMGandColors"
 
 interface ProductInfoAddCartProps {
     product: any
@@ -201,8 +201,6 @@ const LineSelectsButtons = styled.div`
     }
 `
 
-
-
 export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
 
     async function incrementItemQuantity() {
@@ -229,14 +227,13 @@ export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
         }
     }
 
-    const [selectedSize, setSelectedSize] = useState(props.product.size[0]?.size);
-    const [selectedColor, setSelectedColor] = useState("");
+    const [selectedSize, setSelectedSize] = useState(props.product.size[0]?.size || '');
 
-    // Update colors based on selected size
-    // const selectedSizeObject = props.product.size.find(
-    //     (sizeObj: any) => sizeObj.size === selectedSize
-    // );
-    // const colors = selectedSizeObject?.color || [];        
+    const [selectedwidth, setSelectedwidth] = useState(props.product.size[0]?.width_in_centimeters || '');
+    const [selectedHeight, setSelectedHeight] = useState(props.product.size[0]?.color[0]?.height_in_centimeters || '');
+    const [selectedDepth, setSelectedDepth] = useState(props.product.size[0]?.color[0]?.depth_in_centimeters || '');
+
+    const [selectedColor, setSelectedColor] = useState(props.product.size[0]?.color[0]?.color || '');
 
     return (
         <ContainerProductInFoButton>
@@ -260,12 +257,12 @@ export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
                     <p>{props.product?.description}</p>
                 </div>
 
-                <ProductSelects 
-                    product={props.product} 
-                    selectedSize={selectedSize} 
-                    setSelectedSize={setSelectedSize} 
-                    selectedColor={selectedColor} 
-                    setSelectedColor={setSelectedColor} 
+                <SelectsSizePMGandColorsProps
+                    product={props.product}
+                    selectedSize={selectedSize}
+                    setSelectedSize={setSelectedSize}
+                    selectedColor={selectedColor}
+                    setSelectedColor={setSelectedColor}
                 />
 
             </ProductInfo>
