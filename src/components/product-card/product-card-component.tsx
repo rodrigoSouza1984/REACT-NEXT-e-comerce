@@ -17,6 +17,10 @@ interface ContainerProps {
     $iconcontrol: boolean;
   }
 
+interface ButtonProps {
+    $available: boolean;
+}
+
 const Card = styled.div`
     display: flex;
     
@@ -86,6 +90,25 @@ svg {
   }
 `
 
+
+const FooterButton = styled.button<ButtonProps>`
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: ${({ $available }) => ($available ? 'green' : 'red')};
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
+
+    &:hover {
+        opacity: 0.8;
+    }
+`;
+
 export function ProductCard(props: any) {
     const { setProduct } = useProductContext()
     const [iconcontrol, seticoncontrol] = useState(true)   
@@ -100,7 +123,7 @@ export function ProductCard(props: any) {
         router.push("/pages/product-detail?id=" + props.product.id)
     }
 
-    //console.log(props.product, '88888')
+    //console.log(props.product, '88888')    
 
     return (
         <Card >
@@ -112,7 +135,14 @@ export function ProductCard(props: any) {
                 <ContainerPriceAndHeart $iconcontrol={iconcontrol}>
                     <p>{price}</p>
                     <FavoriteHeartIconButton onClick={() => seticoncontrol(!iconcontrol)}/>
-                </ContainerPriceAndHeart>                
+                </ContainerPriceAndHeart> 
+
+                <FooterButton
+                    $available={props.product.quantity > 0}
+                    onClick={handleNavigate}
+                >
+                    {props.product.quantity > 0 ? "Ver Detalhes" : "Indisponível"}
+                </FooterButton>               
             </div>
 
         </Card>

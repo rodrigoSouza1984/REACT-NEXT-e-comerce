@@ -1,41 +1,129 @@
 import { products } from "@/api/database-mock/products"
 import { categorysFilter } from "@/hooks/products/use-categorys-context";
 import { useFiltersContext } from "@/hooks/products/use-filters-contexts";
+import { useProductPaginationContext } from "@/hooks/products/use-product-pagination-context";
 import { useProductContext } from "@/hooks/products/use-products-context";
-import { randomInt } from "crypto";
+
 
 export const ProductService = () => {
-    const { setProductList, setQuantityTotalProduct } = useProductContext();
+    const { productList ,setProductList, setQuantityTotalProduct, quantityTotalProduct } = useProductContext();
     const { inputHeaderValue, priorityFilter } = useFiltersContext();
-    const {categoryType} = categorysFilter()
+    const { categoryType } = categorysFilter()        
 
-    const getAllProducts = async () => {
-        try {            
+    const {
+        page,
+        setPage,
+        quantityItensByPage,
+        totalPages,
+        setTotalPages,
+        currentPage,
+        setCurrentPage
+    } = useProductPaginationContext()
 
-            console.log(priorityFilter, 7777, categoryType)
+    const getAllProducts = async (pageNumber?: number, itemsPerPage?: number, scroll?: boolean) => {
+        try {           
 
-            console.log(7776, categoryType)
-
-            let listProducts = null            
-
-            if(categoryType === 'ALL'){                
-                listProducts = products
-            }else{                
-                listProducts = products.filter(r => r.typeProduct.toLowerCase() === categoryType.toLowerCase())                
+            if (!pageNumber) {
+                pageNumber = 1
             }
 
-            //aki agora colocar os filtros necessarios exemplo do priorityFilter que eh o mais vendido preco baixo etc
+            if (!itemsPerPage) {
+                itemsPerPage = 10
+            }
 
-            setProductList(listProducts) 
-            setQuantityTotalProduct(30)     
+            if(!scroll){
+                scroll = false
+            }else{
+                pageNumber = page
+                itemsPerPage = quantityItensByPage
+            }
 
-        } catch (err) {            
+            let listProducts = null
+
+            if (categoryType === 'ALL') {
+                listProducts = products
+            } else {
+                listProducts = products.filter(r => r.typeProduct.toLowerCase() === categoryType.toLowerCase())
+            }         
+
+            const start = (pageNumber - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+
+            const paginatedProducts = listProducts.slice(start, end); 
+
+            setQuantityTotalProduct(listProducts.length)
+            setTotalPages(Math.ceil(listProducts.length / Number(quantityItensByPage))) 
+
+            console.log(quantityTotalProduct, 'quantityTotalProduct - total pages', totalPages)  
+            
+            if(!scroll){
+                setProductList(paginatedProducts)
+            }else{
+                setProductList((prevProducts: any) => [...prevProducts, ...paginatedProducts]);
+            }                      
+
+        } catch (err) {
             return `error in getAll products functions: ${err}`
         }
     };
 
+
+    // const getAllProducts = async (pageNumber: number, itemsPerPage: number) => {
+    //     try {
+    //         // Simulating API call with pagination
+    //         const start = (pageNumber - 1) * itemsPerPage;
+    //         const end = start + itemsPerPage;
+
+    //         const allProducts = await new Promise<any[]>((resolve) => {
+    //             setTimeout(() => resolve(products), 500); // Simulated delay
+    //         });
+
+    //         const paginatedProducts = allProducts.slice(start, end);
+
+    //         setProductList(paginatedProducts) 
+
+    //         return paginatedProducts;
+    //     } catch (err) {
+    //         //return `error in getAll products functions: ${err}`;
+    //         return []; 
+    //     }
+    // }
+
+    // const getAllProducts = async () => {
+    //     try {            
+
+    //         if (primeiroRender.current) {
+    //             console.log(1, productList.length)
+    //             primeiroRender.current = false;
+    //             return;
+    //         }            
+
+    //         console.log(priorityFilter, 7777, categoryType)
+
+    //         console.log(7776, categoryType)
+
+    //         let listProducts = null            
+
+    //         if(categoryType === 'ALL'){                
+    //             listProducts = products
+    //         }else{                
+    //             listProducts = products.filter(r => r.typeProduct.toLowerCase() === categoryType.toLowerCase())                
+    //         }
+
+    //         //aki agora colocar os filtros necessarios exemplo do priorityFilter que eh o mais vendido preco baixo etc
+
+    //         setProductList(listProducts) 
+    //         setQuantityTotalProduct(30)     
+
+    //     } catch (err) {            
+    //         return `error in getAll products functions: ${err}`
+    //     }
+    // };    
+
     const getProductById = (productId: number) => {
         try {
+
+            console.log(2, productList.length)
 
             const listProducts = products
 

@@ -1,6 +1,4 @@
 // "use client"
-
-import { filterItemsCategorysData } from "@/types/filter-types-categorys-list";
 import { ReactNode, createContext, useDeferredValue, useState } from "react"
 
 interface ProviderProps {

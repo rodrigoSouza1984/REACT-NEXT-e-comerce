@@ -1,10 +1,5 @@
 import { categorysFilter } from "@/hooks/products/use-categorys-context";
-import { useFiltersContext } from "@/hooks/products/use-filters-contexts";
-import { useProductContext } from "@/hooks/products/use-products-context";
-import { ProductService } from "@/services/products/product.service";
 import { filterItemsCategorysData } from "@/types/filter-types-categorys-list";
-
-import { useEffect, useState } from "react";
 import styled from "styled-components"
 
 interface MenuCategoryProps {
@@ -62,20 +57,13 @@ const FilterItem = styled.li<MenuCategoryProps>`
     }
 `
 
-export function MenuCategoryProps() {
-    //const [type, setType] = useState('ALL');
-    const { getAllProducts } = ProductService();
+export function MenuCategoryProps() {   
 
     const { categoryType, setCategoryType } = categorysFilter()
 
     const handleChangeItem = (data: any) => {
-        setCategoryType(data)       
-    }
-
-    // UseEffect para chamar getAllProducts quando categoryType mudar
-    useEffect(() => {
-        getAllProducts();
-    }, [categoryType]); // Dependência de categoryType
+        setCategoryType(data)   
+    }    
 
     return (
         <FilterList>

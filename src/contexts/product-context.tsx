@@ -5,7 +5,7 @@ interface ProviderProps {
 }
 
 export const ProductContext = createContext({
-    productList: [] ,
+    productList: [] as any[] ,
     setProductList: (value: any) => {},   
 
     quantityTotalProduct: 0 ,
