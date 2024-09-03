@@ -89,7 +89,7 @@ const ProductInfo = styled.div`
             font-size: 14px;
             //color: var(--text-dark);
             color: white;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
     }
 `
@@ -100,33 +100,37 @@ const LinePriceAndQuantity = styled.div`
     align-items: end;    
     width: 100%;    
     margin-top: 5px;  
-    margin-bottom: 10px;    
+    margin-bottom: 10px;  
+    margin-top:10px;  
+    background-color: red;
 `
 
 const ButtonsMaisEMenos = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: 35px;
+    height: 35px;
     border-radius: 100%;
     background-color: var(--text-dark);
     color: white; 
     text-align: center; 
-    font-size: 15px;
-    line-height: 15px; 
+    font-size: 25px;
+    line-height: 25px; 
     cursor: pointer;
 `;
 
 const QuantityContainer = styled.div`    
     input{
-        width: 25px;
-        height: 25px;
+        width: 35px;        
+        height: 35px;
         text-align: center;
         margin-left: 6px;
         margin-right: 6px;
         border: 1px solid var(--custom-purple-classifield-with-opacity);
-        border-radius: 5px;        
+        border-radius: 5px;      
+        font-weight:700 ;
+        font-size: 16px;
     }   
 
     >div{
@@ -256,6 +260,7 @@ export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
                     <h3>Descrição</h3>
                     <p>{props.product?.description}</p>
                 </div>
+                
 
                 <SelectsSizePMGandColorsProps
                     product={props.product}

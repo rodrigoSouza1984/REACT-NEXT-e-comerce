@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from "react";
 import styled from "styled-components";
 
 interface SelectsSizePMGandColorsProps {
@@ -13,17 +14,17 @@ interface SelectsSizePMGandColorsProps {
 const LineSelectsButtons = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 10px;
+    justify-content: space-between;  
     width: 100%;
-    height: 25px;    
+    height: 100%;    
     gap: 10px;
 
-    select {
-        width: 100%;
+    select {        
+        text-align: center;
+        width: 60%;
         border-radius: 6px;
         height: 100%;
-        padding: 2px;
+        padding: 2px 10px;
     }
 `;
 
@@ -35,9 +36,12 @@ export function SelectsSizePMGandColorsProps({ product, selectedSize, setSelecte
     );
     const colors = selectedSizeObject?.color || [];
 
-    if (selectedColor === '') {
-        setSelectedColor(selectedSizeObject?.color[0].color)
-    }
+    // Utilize useEffect para definir a cor selecionada após a renderização
+    useEffect(() => {
+        if (selectedColor === '' && colors.length > 0) {
+            setSelectedColor(colors[0].color);
+        }
+    }, [selectedSize, colors, setSelectedColor]);
 
 
     return (
