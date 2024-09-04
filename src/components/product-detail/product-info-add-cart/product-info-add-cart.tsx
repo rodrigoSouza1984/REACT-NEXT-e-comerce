@@ -94,23 +94,12 @@ const ProductInfo = styled.div`
     }
 `
 
-const LinePriceAndQuantity = styled.div`    
-    display: flex;
-    justify-content: space-between;
-    align-items: end;    
-    width: 100%;    
-    margin-top: 5px;  
-    margin-bottom: 10px;  
-    margin-top:10px;  
-    background-color: red;
-`
-
 const ButtonsMaisEMenos = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 35px;
-    height: 35px;
+    width: 25px;
+    height: 25px;
     border-radius: 100%;
     background-color: var(--text-dark);
     color: white; 
@@ -123,7 +112,7 @@ const ButtonsMaisEMenos = styled.div`
 const QuantityContainer = styled.div`    
     input{
         width: 35px;        
-        height: 35px;
+        height: 25px;
         text-align: center;
         margin-left: 6px;
         margin-right: 6px;
@@ -190,19 +179,34 @@ const LineValorTotal = styled.div`
 
 const LineSelectsButtons = styled.div`
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
-    padding: 0 10px;
-    width: 100%;
-    height: 25px;    
+    padding: 20px 10px;
+    //width: 100%;
+    height: 20px;    
     gap: 10px;
+    margin-top: 40px;
+    //background-color: green;
 
     select {
         width: 100%;
         border-radius: 6px;
-        height: 100%;
+        //height: 100%;
+        height: 25px;
         padding: 2px;
     }
+`
+
+const LinePriceAndQuantity = styled.div`    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+    width: 100%;    
+    height: 50%;
+    padding: 2px 10px ;  
+    margin-bottom: 10px;  
+    margin-top:10px;  
+    //background-color: red;
 `
 
 export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
@@ -231,12 +235,7 @@ export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
         }
     }
 
-    const [selectedSize, setSelectedSize] = useState(props.product.size[0]?.size || '');
-
-    const [selectedwidth, setSelectedwidth] = useState(props.product.size[0]?.width_in_centimeters || '');
-    const [selectedHeight, setSelectedHeight] = useState(props.product.size[0]?.color[0]?.height_in_centimeters || '');
-    const [selectedDepth, setSelectedDepth] = useState(props.product.size[0]?.color[0]?.depth_in_centimeters || '');
-
+    const [selectedSize, setSelectedSize] = useState(props.product.size[0]?.size || '');    
     const [selectedColor, setSelectedColor] = useState(props.product.size[0]?.color[0]?.color || '');
 
     return (
@@ -260,8 +259,10 @@ export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
                     <h3>Descrição</h3>
                     <p>{props.product?.description}</p>
                 </div>
-                
 
+            </ProductInfo>
+
+            <LineSelectsButtons>
                 <SelectsSizePMGandColorsProps
                     product={props.product}
                     selectedSize={selectedSize}
@@ -269,8 +270,8 @@ export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
                     selectedColor={selectedColor}
                     setSelectedColor={setSelectedColor}
                 />
+            </LineSelectsButtons>
 
-            </ProductInfo>
 
             <LinePriceAndQuantity>
 

@@ -22,7 +22,7 @@ const LineSelectsButtons = styled.div`
     select {
         width: 100%;
         border-radius: 6px;
-        height: 100%;
+        //height: 100%;
         padding: 2px;
     }
 `;
