@@ -5,6 +5,10 @@ import { formatPrice } from "@/utils/formatted-price"
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { SelectsSizePMGandColorsProps } from "../selectsSizePMGandColors/selectsSizePMGandColors"
+import { addDataInLocalStorage, getFromLocalStorage, removeItemFromLocalStorage } from "@/services/storage-crud"
+import { StorageKeys } from "@/utils/global-vars"
+import { addItemQuantity } from "@/services/purchase/purchase.service"
+import { useCart } from "@/contexts/cart-context"
 
 interface ProductInfoAddCartProps {
     product: any
@@ -211,8 +215,35 @@ const LinePriceAndQuantity = styled.div`
 
 export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
 
+    const { updateCartCount } = useCart();
+    const [qtdItems, setQtdItems] = useState(1)    
+    const [priceItemFormated, setPriceItemFormated] = useState(formatPrice(props.product.price_in_cents ?? 0))
+    const [selectedSize, setSelectedSize] = useState(
+        Array.isArray(props.product.size) && props.product.size.length > 0
+            ? props.product.size[0].size
+            : ''
+    );
+    const [selectedColor, setSelectedColor] = useState(
+        Array.isArray(props.product?.size) &&
+            props.product.size.length > 0 &&
+            Array.isArray(props.product.size[0].color) &&
+            props.product.size[0].color.length > 0
+            ? props.product.size[0].color[0].color
+            : ''
+    );
+
+
     async function incrementItemQuantity() {
         try {
+
+            if (Number(qtdItems) >= Number(props.product.quantity)) {
+                return
+            }
+
+            setQtdItems(qtdItems + 1);
+
+            const newPrice = props.product.price_in_cents * (qtdItems + 1);
+            setPriceItemFormated(formatPrice(newPrice ?? 0));
 
         } catch (err) {
             console.log('Error in incrementItemQuantity', err);
@@ -222,21 +253,92 @@ export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
     async function decrementItemQuantity() {
         try {
 
+            if (Number(qtdItems) - 1 < 1) {
+                return
+            }
+
+            setQtdItems(qtdItems - 1);
+
+            const newPrice = props.product.price_in_cents * (qtdItems - 1);
+            setPriceItemFormated(formatPrice(newPrice ?? 0));
+
         } catch (err) {
             console.log('Error in incrementItemQuantity', err);
         }
     }
 
-    async function removeItemCart(key: string, index: number) {
+    async function incrementItemQuantityCartModal(key: StorageKeys, productId: number, qtdItemAdd: number) {
         try {
+            const stored = getFromLocalStorage(key);
+
+            if (!stored || !Array.isArray(stored.productsCart)) {
+                console.error("Carrinho inválido ou não encontrado");
+                return;
+            }
+
+            const index = stored.productsCart.findIndex((item: any) => item.id === productId);
+
+            if (index === -1) {
+                console.warn("Produto não encontrado no carrinho");
+                return;
+            }
+
+            // Agora chama corretamente sua função que já faz tudo
+            await addItemQuantity(key, index, qtdItemAdd);
 
         } catch (err) {
-            console.log('Error in incrementItemQuantity', err);
+            console.log("Error in incrementItemQuantityCartModal", err);
         }
     }
 
-    const [selectedSize, setSelectedSize] = useState(props.product.size[0]?.size || '');    
-    const [selectedColor, setSelectedColor] = useState(props.product.size[0]?.color[0]?.color || '');
+    function addToCart(product: any) {
+        const cart = getFromLocalStorage(StorageKeys.PURCHASHE, {
+            productsCart: [],
+            subtotal_in_cents: 0,
+            descountTotal_in_cents: 0,
+            subTotalWithDescount_in_cents: 0,
+        });
+
+        const existingIndex = cart.productsCart.findIndex((item: any) => item.id === product.id);
+
+        // Se o produto já está no carrinho
+        if (existingIndex !== -1) {
+
+            incrementItemQuantityCartModal(StorageKeys.PURCHASHE, product.id, qtdItems);
+            updateCartCount();
+            return;
+        }
+
+        const priceTotal = product.price_in_cents * qtdItems;
+        const descountTotal = product.descount_in_cents * qtdItems;
+        const priceWithDiscount = priceTotal - descountTotal;
+
+        const productToAdd = {
+            ...product,
+            quantityPurchased: qtdItems
+        };
+
+        const updatedCart = {
+            productsCart: [...(cart?.productsCart || []), productToAdd],
+            subtotal_in_cents: (cart?.subtotal_in_cents || 0) + priceTotal,
+            descountTotal_in_cents: (cart?.descountTotal_in_cents || 0) + descountTotal,
+            subTotalWithDescount_in_cents:
+                (cart?.subTotalWithDescount_in_cents || 0) + priceWithDiscount,
+        };
+
+        const { updateLocalStorage } = addDataInLocalStorage(StorageKeys.PURCHASHE, {
+            productsCart: [],
+            subtotal_in_cents: 0,
+            descountTotal_in_cents: 0,
+            subTotalWithDescount_in_cents: 0,
+        });
+
+        updateLocalStorage(updatedCart);
+
+        updateCartCount();
+
+        console.log("Produto adicionado ao carrinho");
+    }     
 
     return (
         <ContainerProductInFoButton>
@@ -278,18 +380,18 @@ export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
                 <QuantityContainer>
                     <div>
                         <ButtonsMaisEMenos onClick={decrementItemQuantity}>-</ButtonsMaisEMenos>
-                        <input type="text" value={1} readOnly />
+                        <input type="text" value={qtdItems} readOnly />
                         <ButtonsMaisEMenos onClick={incrementItemQuantity}>+</ButtonsMaisEMenos>
                     </div>
                 </QuantityContainer>
                 <ContainerItemPriceAndTitle>
-                    <ItemPrice>{formatPrice(props.product.price_in_cents ?? 0)}</ItemPrice>
+                    <ItemPrice>{priceItemFormated}</ItemPrice>
                 </ContainerItemPriceAndTitle>
 
 
             </LinePriceAndQuantity>
 
-            <button>
+            <button onClick={() => addToCart(props.product)}>
                 <CartIconButtonColorWhite />
                 Adicionar ao carrinho
             </button>

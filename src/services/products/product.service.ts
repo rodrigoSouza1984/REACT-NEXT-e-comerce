@@ -141,5 +141,26 @@ export const ProductService = () => {
         }
     };
 
-    return { getAllProducts, getProductById };
+    const getProductsByName = (searchTerm: string) => {
+    try {
+        const listProducts = products;
+
+        console.log('getproducts', listProducts)
+
+        const filteredProducts = listProducts.filter(product =>
+            product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        setProductList(filteredProducts)
+
+
+
+        return true
+        
+    } catch (err: any) {
+        return `error in getProductsByName function: ${err}`;
+    }
+};
+
+    return { getAllProducts, getProductById, getProductsByName };
 };

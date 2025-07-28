@@ -1,6 +1,6 @@
 import { getFromLocalStorage, updateItemInLocalStorage } from "../storage-crud";
 
-export async function addItemQuantity(key: string, index: number) {
+export async function addItemQuantity(key: string, index: number, addItem: number = 1) {
     try {
 
         const purchase = getFromLocalStorage(key)
@@ -11,7 +11,7 @@ export async function addItemQuantity(key: string, index: number) {
 
                 const itemBeforeToCompare = purchase.productsCart[index];
 
-                const quantityPurchasedUpdate = (purchase.productsCart[index].quantityPurchased || 0) + 1
+                const quantityPurchasedUpdate = (purchase.productsCart[index].quantityPurchased || 0) + addItem
 
                 purchase.productsCart[index].quantityPurchased = quantityPurchasedUpdate;
 

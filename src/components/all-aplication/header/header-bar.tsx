@@ -15,6 +15,7 @@ import { purchase } from "@/api/database-mock/purchase";
 import { useFiltersContext } from "@/hooks/products/use-filters-contexts";
 import { usePurchaseStorageContext } from "@/hooks/purchase/use-purchase-storage";
 import { StorageKeys } from "@/utils/global-vars";
+import { ProductService } from "@/services/products/product.service";
 
 const SairaStencil = Saira_Stencil_One({
     weight: ['400'],
@@ -169,21 +170,23 @@ export function Header(props: HeaderProps) {
     const { inputHeaderValue, setInputHeaderValue } = useFiltersContext();
     const [menuAvatar, setMenuAvatar] = useState(false);
     const iconRef = useRef<HTMLDivElement>(null);
-    // const { value, updateLocalStorage } = addDataInLocalStorage("purchase", [])
+    //const { value, updateLocalStorage } = addDataInLocalStorage("purchase", [])
     const { value, updateLocalStorage } = addDataInLocalStorage(StorageKeys.PURCHASHE, {})
 
     const { purchaseStorage,  setPurchaseStorage} = usePurchaseStorageContext();
 
     const [modalCart, setModalCart] = useState(false);
 
+    const { getProductsByName } = ProductService();
+
     const handleAddValueInputPerDigit = (data: any) => {
         setInputHeaderValue(data)
-        console.log(data, 'handleAddValueInputPerDigit', inputHeaderValue)
+        getProductsByName(data)
     }
 
     const clearInputClickEnterOrClickIconLoopa = (event: any) => {
         if (event.key === 'Enter' || event.key === 'Click') {
-            console.log(event.key, 'clearInputClickEnter', inputHeaderValue)
+            getProductsByName(inputHeaderValue)
             setInputHeaderValue('');
         }
     };

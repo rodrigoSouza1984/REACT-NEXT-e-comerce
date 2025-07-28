@@ -1,5 +1,8 @@
 import { CartIcon } from "@/components/icons/cart-icon";
-import { InputHTMLAttributes } from "react";
+import { useCart } from "@/contexts/cart-context";
+import { getFromLocalStorage } from "@/services/storage-crud";
+import { StorageKeys } from "@/utils/global-vars";
+import { InputHTMLAttributes, useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface CartControlProps extends InputHTMLAttributes<HTMLInputElement> { 
@@ -36,10 +39,13 @@ const CartCount = styled.span`
 `;
 
 export function CartControl() {
+
+    const { cartCount } = useCart();
+
     return (
         <Container>
             <CartIcon/>
-            <CartCount>22</CartCount>
+            <CartCount>{cartCount}</CartCount>
         </Container>
     );
 }

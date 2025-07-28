@@ -1,8 +1,6 @@
-import { useState } from "react";
-
 export function addDataInLocalStorage<T>(item: string, defaultValue: [] | {}) {// para array e obejto
     try {
-        const storedItem = localStorage.getItem(item);
+        const storedItem = localStorage.getItem(item);        
 
         if (!storedItem) {
             localStorage.setItem(item, JSON.stringify(defaultValue));
@@ -27,7 +25,7 @@ export function addDataInLocalStorage<T>(item: string, defaultValue: [] | {}) {/
 }
 
 
-export function getFromLocalStorage(item: string, defaultValue?: []) {
+export function getFromLocalStorage(item: string, defaultValue?: any) {
     try {
         const storedItem = localStorage.getItem(item);
         return storedItem ? JSON.parse(storedItem) : defaultValue;

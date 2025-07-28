@@ -169,7 +169,7 @@ export function CardItemCard(props: CardItemCardProps) {
     return (
         <CartItemCard >
 
-            <ItemImage src={props.productInCartStorage.image_url} alt={props.productInCartStorage.name} />
+            <ItemImage src={props.productInCartStorage.coverImage} alt={props.productInCartStorage.name} />
 
 
             <ContainerImageAndPrice>
@@ -188,38 +188,38 @@ export function CardItemCard(props: CardItemCardProps) {
 
                 {props.productInCartStorage.size ? <LineConfigItem>
                     <div>Tamanho:</div>
-                    <div>{props.productInCartStorage.size}</div>
+                    <div>{props.productInCartStorage.size.size}</div>
                 </LineConfigItem> : ''}
 
-                {props.productInCartStorage.width_in_centimeters > 0 ? <LineConfigItem>
+                {props.productInCartStorage.size.width_in_centimeters > 0 ? <LineConfigItem>
                     <div>Largura:</div>
                     <div>1,98</div>
                 </LineConfigItem> : ''}
 
-                {props.productInCartStorage.height_in_centimeters > 0 ? <LineConfigItem>
+                {props.productInCartStorage.size.height_in_centimeters > 0 ? <LineConfigItem>
                     <div>Altura:</div>
                     <div>1,98</div>
                 </LineConfigItem> : ''}
 
-                {props.productInCartStorage.depth_in_centimeters > 0 ? <LineConfigItem>
+                {props.productInCartStorage.size.depth_in_centimeters > 0 ? <LineConfigItem>
                     <div>Profundidade:</div>
                     <div>1,98</div>
                 </LineConfigItem> : ''}
 
-                {props.productInCartStorage.codeColor ? <LineConfigItem>
+                {props.productInCartStorage.size.codeColor ? <LineConfigItem>
                     <div>Cor/codigo:</div>
                     <div>{props.productInCartStorage.codeColor}</div>
                 </LineConfigItem> : ''}
 
-                {props.productInCartStorage.flavor ? <LineConfigItem>
+                {/* {props.productInCartStorage.flavor ? <LineConfigItem>
                     <div>Sabor:</div>
                     <div>{props.productInCartStorage.flavor}</div>
-                </LineConfigItem> : ''}
+                </LineConfigItem> : ''} */}
 
-                {props.productInCartStorage.Weight_in_grams > 0 ? <LineConfigItem>
+                {/* {props.productInCartStorage.Weight_in_grams > 0 ? <LineConfigItem>
                     <div>Peso:</div>
                     <div>1,00</div>
-                </LineConfigItem> : ''}
+                </LineConfigItem> : ''} */}
 
                 {props.productInCartStorage.descount_in_cents > 0 ? <LineDescProduto>
                     <div>Desc. Produto</div>

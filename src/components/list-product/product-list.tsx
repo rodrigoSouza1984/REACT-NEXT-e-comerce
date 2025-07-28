@@ -87,24 +87,19 @@ export function ProductList(props: ProductsListProps) {
     const handleClick = (pageNumber: any) => {
         setCurrentPage(pageNumber);
         setPage(pageNumber)
-
-        console.log(totalPages, 888, quantityItensByPage)
     };
 
     useEffect(() => {
         if (primeiroRender.current) {
-            console.log(1, productList.length)
             primeiroRender.current = false;
             return;
         }
 
         getAllProducts()                  
 
-        console.log(totalPages, 888, quantityItensByPage, 888, page, 6667, quantityTotalProduct, 88888888, Math.ceil(Number(quantityTotalProduct) / Number(quantityItensByPage)))
     }, [categoryType]);
 
     useEffect(() => {
-        console.log(totalPages, 'scroll useefect 1')
         if (!scroll) {            
             return;
         }
@@ -113,7 +108,6 @@ export function ProductList(props: ProductsListProps) {
 
         setScroll(false)
 
-        console.log('scroll useefect')
     }, [page]);
 
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -134,12 +128,10 @@ export function ProductList(props: ProductsListProps) {
     };
 
     const fetchMoreData = async () => {          
-        console.log(totalPages, 'scrollllllll 1', page, '123456', quantityTotalProduct, 4444, Math.ceil(Number(quantityTotalProduct) / Number(quantityItensByPage)))
         if(page > totalPages){            
             return
         }
         setScroll(true)
-        console.log('scrollllllll', page)
         setPage(page + 1);        
       };
 

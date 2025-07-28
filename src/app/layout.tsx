@@ -12,6 +12,7 @@ import { PurchaseStorageProvider } from "@/contexts/purchase-storage-context";
 import { CategorysContextProvider } from "@/contexts/categorys-context";
 import { ProductProvider } from "@/contexts/product-context";
 import { ProductPaginationProvider } from "@/contexts/product-pagination-context";
+import { CartProvider } from "@/contexts/cart-context";
 
 
 
@@ -41,22 +42,23 @@ export default function RootLayout({
           <FilterContextProvider>
             <PurchaseStorageProvider>
               <CategorysContextProvider>
+                <CartProvider>
 
-                <DefaultContainerFullScreen>
-                  <DefaultContainerControlMaxWidthPage>
-                    <ProductProvider>
-                      <ProductPaginationProvider>
+                  <DefaultContainerFullScreen>
+                    <DefaultContainerControlMaxWidthPage>
+                      <ProductProvider>
+                        <ProductPaginationProvider>
 
-                        <PageContainer>
-                          <Header />
-                          {children}
-                        </PageContainer>
+                          <PageContainer>
+                            <Header />
+                            {children}
+                          </PageContainer>
 
-                      </ProductPaginationProvider>
-                    </ProductProvider>
-                  </DefaultContainerControlMaxWidthPage>
-                </DefaultContainerFullScreen>
-
+                        </ProductPaginationProvider>
+                      </ProductProvider>
+                    </DefaultContainerControlMaxWidthPage>
+                  </DefaultContainerFullScreen>
+                </CartProvider>
               </CategorysContextProvider>
             </PurchaseStorageProvider>
           </FilterContextProvider>

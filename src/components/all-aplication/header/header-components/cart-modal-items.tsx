@@ -11,6 +11,7 @@ import { usePurchaseStorageContext } from "@/hooks/purchase/use-purchase-storage
 import { StorageKeys } from "@/utils/global-vars";
 import { addItemQuantity, deleteItemPurchaseCartProducts, removeItemQuantity } from "@/services/purchase/purchase.service";
 import { CartWithoutProduct } from "@/components/cart-purchase/cart-without-products-add";
+import { useCart } from "@/contexts/cart-context";
 
 interface CartModalProps {
 }
@@ -141,33 +142,37 @@ export function CartMenuModal(props: CartModalProps) {
     const router = useRouter();
     //const [cartItems, setCartItems] = useState(getFromLocalStorage("purchase") || {})
     const { purchaseStorage, setPurchaseStorage } = usePurchaseStorageContext();
+    const { updateCartCount } = useCart();
 
     const handleNavigate = (routerUrl: string) => {
         router.push(routerUrl)
     }
 
-    async function incrementItemQuantity(key: string, index: number) {
+    async function incrementItemQuantity(key: StorageKeys, index: number) {
         try {
             await addItemQuantity(key, index)
-            setPurchaseStorage(getFromLocalStorage(StorageKeys.PURCHASHE))
+            setPurchaseStorage(getFromLocalStorage(key))
+            updateCartCount();
         } catch (err) {
             console.log('Error in incrementItemQuantity', err);
         }
     }
 
-    async function decrementItemQuantity(key: string, index: number) {
+    async function decrementItemQuantity(key: StorageKeys, index: number) {
         try {
             await removeItemQuantity(key, index)
-            setPurchaseStorage(getFromLocalStorage(StorageKeys.PURCHASHE))
+            setPurchaseStorage(getFromLocalStorage(key))
+            updateCartCount();
         } catch (err) {
             console.log('Error in incrementItemQuantity', err);
         }
     }
 
-    async function removeItemCart(key: string, index: number) {
+    async function removeItemCart(key: StorageKeys, index: number) {
         try {
             await deleteItemPurchaseCartProducts(key, index)
-            setPurchaseStorage(getFromLocalStorage(StorageKeys.PURCHASHE))
+            setPurchaseStorage(getFromLocalStorage(key))
+            updateCartCount();
         } catch (err) {
             console.log('Error in incrementItemQuantity', err);
         }
@@ -185,9 +190,9 @@ export function CartMenuModal(props: CartModalProps) {
                         <CardItemCard
                             key={index}
                             productInCartStorage={item}
-                            onClickAddItem={() => incrementItemQuantity('purchase', index)}
-                            onClickDecrementItem={() => decrementItemQuantity('purchase', index)}
-                            removeItem={() => removeItemCart('purchase', index)}
+                            onClickAddItem={() => incrementItemQuantity(StorageKeys.PURCHASHE, index)}
+                            onClickDecrementItem={() => decrementItemQuantity(StorageKeys.PURCHASHE, index)}
+                            removeItem={() => removeItemCart(StorageKeys.PURCHASHE, index)}
                         />
                     ))}
                 </ContainerAllCardsItems>

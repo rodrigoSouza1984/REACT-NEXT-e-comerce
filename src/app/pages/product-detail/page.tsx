@@ -58,7 +58,6 @@ const Container = styled.div`
 export default function ProductDetail(props?: any) {
     const { product, setProduct } = useProductContext()
     let data: any = product
-    console.log(data, 'data')    
 
     return (
         <Container>
