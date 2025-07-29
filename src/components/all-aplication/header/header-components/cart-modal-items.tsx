@@ -14,6 +14,7 @@ import { CartWithoutProduct } from "@/components/cart-purchase/cart-without-prod
 import { useCart } from "@/contexts/cart-context";
 
 interface CartModalProps {
+    onCloseModal: () => void;
 }
 
 const MenuContainer = styled.div`
@@ -138,13 +139,12 @@ const ButtonAddMoreProducts = styled.button`
 
 
 export function CartMenuModal(props: CartModalProps) {
-
-    const router = useRouter();
-    //const [cartItems, setCartItems] = useState(getFromLocalStorage("purchase") || {})
+    const router = useRouter();    
     const { purchaseStorage, setPurchaseStorage } = usePurchaseStorageContext();
     const { updateCartCount } = useCart();
 
     const handleNavigate = (routerUrl: string) => {
+        props.onCloseModal();
         router.push(routerUrl)
     }
 
@@ -180,11 +180,11 @@ export function CartMenuModal(props: CartModalProps) {
 
     return (
         purchaseStorage && purchaseStorage.productsCart && purchaseStorage.productsCart.length === 0 ? (
-            <MenuContainerCartWithoutItems><CartWithoutProduct/></MenuContainerCartWithoutItems>            
+            <MenuContainerCartWithoutItems><CartWithoutProduct /></MenuContainerCartWithoutItems>
         ) : (
             <MenuContainer>
                 <h1>{`Itens no Carrinho (${purchaseStorage && purchaseStorage.productsCart && purchaseStorage.productsCart.length > 0 ? purchaseStorage.productsCart.length : 0})`}</h1>
-    
+
                 <ContainerAllCardsItems>
                     {purchaseStorage && purchaseStorage.productsCart && purchaseStorage.productsCart.map((item: any, index: number) => (
                         <CardItemCard
@@ -196,11 +196,11 @@ export function CartMenuModal(props: CartModalProps) {
                         />
                     ))}
                 </ContainerAllCardsItems>
-    
+
                 <CartResumePurchase />
-    
-                <ButtonNavigateCart><div>Ir Para o Carrinho</div></ButtonNavigateCart>
-                <ButtonAddMoreProducts><div>Escolher Mais Produtos</div></ButtonAddMoreProducts>
+
+                <ButtonNavigateCart onClick={() => handleNavigate("/pages/cart")}><div>Ir Para o Carrinho</div></ButtonNavigateCart>
+                <ButtonAddMoreProducts onClick={() => handleNavigate("/")}><div>Escolher Mais Produtos</div></ButtonAddMoreProducts>
             </MenuContainer>
         )
     );

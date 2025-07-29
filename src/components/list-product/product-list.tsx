@@ -41,11 +41,12 @@ const ListContainer = styled.div`
     width: 100%;
     max-width: 100%;   
     background-color: var(--custom-purple-classifield);
-    margin-top: 0px;    
+    margin-top: 10px;    
 
     @media (min-width: ${props => props.theme.celPhoneBreakPointSmaller}){//aki        
         grid-template-columns: repeat(2, minmax(20%, 1fr));
         grid-gap: 20px;       
+         margin-top: 15px;
     }
     
     @media (min-width: ${props => props.theme.celPhoneBreakPoint}){//aki       

@@ -260,7 +260,7 @@ export function Header(props: HeaderProps) {
                         <div onClick={openModalCart}>
                             <CartControl />
                         </div>
-                        {modalCart && <CartMenuModal />}  
+                        {modalCart && <CartMenuModal onCloseModal={() => setModalCart(false)} />}  
                     </CartControlWithModal>
 
                     <AvatarWithModal>

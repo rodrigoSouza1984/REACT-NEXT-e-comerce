@@ -216,7 +216,7 @@ const LinePriceAndQuantity = styled.div`
 export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
 
     const { updateCartCount } = useCart();
-    const [qtdItems, setQtdItems] = useState(1)    
+    const [qtdItems, setQtdItems] = useState(1)
     const [priceItemFormated, setPriceItemFormated] = useState(formatPrice(props.product.price_in_cents ?? 0))
     const [selectedSize, setSelectedSize] = useState(
         Array.isArray(props.product.size) && props.product.size.length > 0
@@ -299,7 +299,10 @@ export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
             subTotalWithDescount_in_cents: 0,
         });
 
-        const existingIndex = cart.productsCart.findIndex((item: any) => item.id === product.id);
+        // Garante que productsCart seja um array antes de usar findIndex
+        const productsCart = Array.isArray(cart.productsCart) ? cart.productsCart : [];
+
+        const existingIndex = productsCart.findIndex((item: any) => item.id === product.id);
 
         // Se o produto já está no carrinho
         if (existingIndex !== -1) {
@@ -338,7 +341,7 @@ export function ProductInfoAddCart(props: ProductInfoAddCartProps) {
         updateCartCount();
 
         console.log("Produto adicionado ao carrinho");
-    }     
+    }
 
     return (
         <ContainerProductInFoButton>
