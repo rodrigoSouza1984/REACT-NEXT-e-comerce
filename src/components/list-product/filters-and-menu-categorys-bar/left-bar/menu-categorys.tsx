@@ -1,4 +1,4 @@
-import { categorysFilter } from "@/hooks/products/use-categorys-context";
+import { useCategorysFilter } from "@/hooks/products/use-categorys-context";
 import { filterItemsCategorysData } from "@/types/filter-types-categorys-list";
 import styled from "styled-components"
 
@@ -59,7 +59,7 @@ const FilterItem = styled.li<MenuCategoryProps>`
 
 export function MenuCategoryProps() {   
 
-    const { categoryType, setCategoryType } = categorysFilter()
+    const { categoryType, setCategoryType } = useCategorysFilter()
 
     const handleChangeItem = (data: any) => {
         setCategoryType(data)   

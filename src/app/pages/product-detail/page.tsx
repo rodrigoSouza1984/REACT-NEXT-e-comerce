@@ -59,17 +59,23 @@ export default function ProductDetail(props?: any) {
     const { product, setProduct } = useProductContext()
     let data: any = product
 
+    // Proteção contra contexto indefinido ou dados incompletos
+    if (!data || !data.images) {
+        return (
+            <Container>
+                <BackBtn navigate="/" />
+                <p>Produto não encontrado ou não carregado.</p>
+            </Container>
+        );
+    }
+
     return (
         <Container>
             <BackBtn navigate="/" />
             <section>
-
-                <ImagemPreviewAndMiniImages images={data.images}/>
-
-                <ProductInfoAddCart product={data}/>                
-                
+                <ImagemPreviewAndMiniImages images={data.images} />
+                <ProductInfoAddCart product={data} />
             </section>
-
         </Container>
-    )
+    );
 }

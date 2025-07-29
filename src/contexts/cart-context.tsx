@@ -18,10 +18,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       productsCart: [],
     });
 
-    const total = cart.productsCart.reduce(
-      (acc: number, item: any) => acc + (item.quantityPurchased || 1),
-      0
-    );
+    const total = cart.productsCart?.length || 0
 
     setCartCount(total);
   };

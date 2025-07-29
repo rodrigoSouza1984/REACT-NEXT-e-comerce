@@ -1,5 +1,5 @@
 import { products } from "@/api/database-mock/products"
-import { categorysFilter } from "@/hooks/products/use-categorys-context";
+import { useCategorysFilter } from "@/hooks/products/use-categorys-context";
 import { useFiltersContext } from "@/hooks/products/use-filters-contexts";
 import { useProductPaginationContext } from "@/hooks/products/use-product-pagination-context";
 import { useProductContext } from "@/hooks/products/use-products-context";
@@ -8,7 +8,7 @@ import { useProductContext } from "@/hooks/products/use-products-context";
 export const ProductService = () => {
     const { productList ,setProductList, setQuantityTotalProduct, quantityTotalProduct } = useProductContext();
     const { inputHeaderValue, priorityFilter } = useFiltersContext();
-    const { categoryType } = categorysFilter()        
+    const { categoryType } = useCategorysFilter()        
 
     const {
         page,

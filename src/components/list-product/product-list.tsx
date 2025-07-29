@@ -12,10 +12,12 @@ import NumericPagination from "./products-pagination/pagination-withLib-users-nu
 import SimplePagination from "./products-pagination/pagination-withLib-simple-product"
 import AdvancedPagination from "./products-pagination/pagination-withLib-advanced-products"
 import { SelectChangeEvent } from "@mui/material"
-import CustomPagination from "./products-pagination/pagination-withLib-tipo-MercadoLivre"
+
 import InfiniteScroll from "./products-pagination/scroll-pagination-product"
-import { categorysFilter } from "@/hooks/products/use-categorys-context"
+
 import InfiniteScrollComponent from "./products-pagination/scroll-pagination-product"
+import CustomPagination from "./products-pagination/pagination-withLib-tipo-ML"
+import { useCategorysFilter } from "@/hooks/products/use-categorys-context"
 
 interface ProductsListProps {
 }
@@ -73,7 +75,7 @@ export function ProductList(props: ProductsListProps) {
 
     const { productList, setProductList, quantityTotalProduct, setQuantityTotalProduct } = useProductContext()
     const { getAllProducts } = ProductService();
-    const { categoryType, setCategoryType } = categorysFilter()
+    const { categoryType, setCategoryType } = useCategorysFilter()
     const {
         page,
         setPage,
@@ -90,21 +92,16 @@ export function ProductList(props: ProductsListProps) {
     };
 
     useEffect(() => {
-        if (primeiroRender.current) {
-            primeiroRender.current = false;
-            return;
-        }
-
-        getAllProducts()                  
-
-    }, [categoryType]);
+        if (categoryType === undefined) return;
+        getAllProducts()
+    }, [categoryType])
 
     useEffect(() => {
-        if (!scroll) {            
+        if (!scroll) {
             return;
         }
 
-        getAllProducts(undefined, undefined, true)   
+        getAllProducts(undefined, undefined, true)
 
         setScroll(false)
 
@@ -127,21 +124,24 @@ export function ProductList(props: ProductsListProps) {
         setCurrentPage(newPage + 1);
     };
 
-    const fetchMoreData = async () => {          
-        if(page > totalPages){            
+    const fetchMoreData = async () => {
+        if (page > totalPages) {
             return
         }
         setScroll(true)
-        setPage(page + 1);        
-      };
+        setPage(page + 1);
+    };
 
     return (
         <Container>
             <ListContainer>
-                {productList?.map((product: any) => <ProductCard
-                    key={product.id}
-                    product={product}
-                />)}
+                {productList?.length === 0 ? (
+                    <p style={{ color: "#fff" }}>Nenhum produto encontrado</p>
+                ) : (
+                    productList?.map((product: any) => (
+                        <ProductCard key={product.id} product={product} />
+                    ))
+                )}
             </ListContainer>
 
             {/* <PaginationNoLibProduct
@@ -183,7 +183,7 @@ export function ProductList(props: ProductsListProps) {
                 onRowsPerPageChange={handleChangeRowsPerPage}
             /> */}
 
-            {/* <CustomPagination
+            { /*<CustomPagination
                 count={totalPages * quantityItensByPage} // total de itens
                 page={page}
                 rowsPerPage={quantityItensByPage}

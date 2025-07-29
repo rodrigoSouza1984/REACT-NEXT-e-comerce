@@ -1,5 +1,5 @@
 import { MenuIcon } from "@/components/icons/menu-icon"
-import { categorysFilter } from "@/hooks/products/use-categorys-context"
+import { useCategorysFilter } from "@/hooks/products/use-categorys-context"
 import { filterItemsCategorysData } from "@/types/filter-types-categorys-list"
 import { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
@@ -100,7 +100,7 @@ export function FilterByTypeMenuCategorysIcon(props: FilterByTypeMenuCategorysIc
         console.log(isOpen, '9999')
     }
 
-    const { categoryType, setCategoryType } = categorysFilter()   
+    const { categoryType, setCategoryType } = useCategorysFilter()   
 
     const handleChangeItem = (data: any) => {
         console.log(data, 9999, data)
